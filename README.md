@@ -1,7 +1,7 @@
 # World-T³ project page
 
 Static site for *World-T³: Test-Time Training as Persistent Memory for Real-Time Video World Models*.
-No build step: GitHub Pages serves `index.html` directly.
+Live: https://adreamwu.github.io/World-T3/ — no build step; GitHub Pages serves `index.html` directly from `main`.
 
 ## Layout
 
