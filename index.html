@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>World-T³</title>
+  <meta name="description" content="World-T³: Test-Time Training as Persistent Memory for Real-Time Video World Models. A camera-controlled video world model that consolidates past observations into a pose-keyed test-time training memory, running at 20.6 FPS at 1280×704.">
+
+  <!-- Social preview (update og:url / og:image once the GitHub Pages URL is known) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="World-T³: Test-Time Training as Persistent Memory for Real-Time Video World Models">
+  <meta property="og:description" content="Pose-keyed test-time training memory for consistent, real-time video world models.">
+  <meta property="og:image" content="static/images/teaser.webp">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+  <link rel="stylesheet" href="static/css/style.css">
+  <script defer src="static/js/main.js"></script>
+</head>
+<body>
+
+<!-- ============================== NAV ============================== -->
+<nav class="topnav" aria-label="Sections">
+  <div class="topnav-inner">
+    <a class="brand" href="#top">World-T<sup>3</sup></a>
+    <div class="topnav-links">
+      <a href="#revisit">Revisit</a>
+      <a href="#long">Long Rollouts</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#bibtex">BibTeX</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero" id="top">
+  <div class="container">
+    <h1 class="title">
+      <span class="title-name">World-T<sup>3</sup></span>
+      <span class="title-sub">Test-Time Training as Persistent Memory for Real-Time Video World Models</span>
+    </h1>
+
+    <!-- TODO: fill in personal homepage links -->
+    <p class="authors">
+      <span class="author"><a href="#">Junyi Wu</a><sup>1,2,*</sup></span>
+      <span class="author"><a href="#">Zekun Li</a><sup>1,3,*</sup></span>
+      <span class="author"><a href="#">Chenhongyi Yang</a><sup>1</sup></span>
+      <span class="author"><a href="#">Chen Guo</a><sup>1</sup></span>
+      <span class="author"><a href="#">Lingchen Yang</a><sup>1</sup></span>
+      <span class="author"><a href="#">Yongan Zhang</a><sup>1</sup></span>
+      <span class="author"><a href="#">Xinyi Zhang</a><sup>1</sup></span>
+      <span class="author"><a href="#">Hongbing Hu</a><sup>1</sup></span>
+      <span class="author"><a href="#">Bartek Rymkowski</a><sup>1</sup></span>
+      <span class="author"><a href="#">Srinath Sridhar</a><sup>3,†</sup></span>
+      <span class="author"><a href="#">Yan Yan</a><sup>2,†</sup></span>
+      <span class="author"><a href="#">Xijie Huang</a><sup>1,†,‡</sup></span>
+    </p>
+    <p class="affiliations">
+      <span><sup>1</sup>Meta Reality Labs</span>
+      <span><sup>2</sup>University of Illinois Chicago</span>
+      <span><sup>3</sup>Brown University</span>
+    </p>
+    <p class="notes">
+      <span><sup>*</sup>Equal contribution</span>
+      <span><sup>†</sup>Joint last author</span>
+      <span><sup>‡</sup>Project lead</span>
+    </p>
+
+    <!-- TODO: replace href="#" with real links; add class="disabled" to hide unreleased ones -->
+    <div class="link-buttons">
+      <a class="btn" href="#" aria-label="Paper PDF">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+        Paper
+      </a>
+      <a class="btn" href="#" aria-label="arXiv">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20"/></svg>
+        arXiv
+      </a>
+      <a class="btn disabled" href="#" aria-label="Code (coming soon)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+        Code <small>(soon)</small>
+      </a>
+      <a class="btn" href="#bibtex">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+        BibTeX
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================== TEASER ============================== -->
+<section class="section teaser">
+  <div class="container wide">
+    <figure class="figure">
+      <img src="static/images/teaser.webp" alt="Revisit consistency: when returning to a previously visited viewpoint, World-T3 recalls the scene faithfully, whereas SANA-WM resynthesizes different content." width="2400" height="936">
+      <figcaption>
+        <strong>Revisit consistency.</strong> When the camera returns to a previously visited viewpoint,
+        World-T<sup>3</sup> recalls the scene faithfully, whereas autoregressive baselines forget observations beyond
+        their context window and resynthesize new content.
+      </figcaption>
+    </figure>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">18.31<span class="unit">dB</span></div>
+        <div class="stat-label">Revisit PSNR<br><span class="muted">vs. 13.52 for the best baseline</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">1.08<span class="unit">°</span></div>
+        <div class="stat-label">Absolute rotation error<br><span class="muted">vs. 3.34° for the best baseline</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">20.6<span class="unit">FPS</span></div>
+        <div class="stat-label">at 1280×704, 1× B200<br><span class="muted">with live memory updates</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">O(1)</div>
+        <div class="stat-label">Memory storage &amp; per-step cost<br><span class="muted">independent of rollout length</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ABSTRACT ============================== -->
+<section class="section" id="abstract">
+  <div class="container narrow">
+    <h2>Abstract</h2>
+    <p class="abstract">
+      Recent advances in video world models have enabled plausible interactive environments, yet long-horizon
+      generation places a fundamental demand on visual memory: the previously observed world must remain consistent
+      as the model continues to generate. Existing autoregressive approaches often implicitly rely on the generative
+      model itself to retain such information, making persistent scene memory difficult to maintain beyond the active
+      context. We introduce <strong>World-T<sup>3</sup></strong>, a camera-controlled video world model with a
+      test-time training memory that consolidates past observations into dedicated model parameters. To robustly
+      update this memory, we propose a recursive least-squares rule that incrementally absorbs novel visual features
+      via online pose-keyed memory updates. Our TTT memory reads out previously observed scene features from the
+      fast-weight state by camera pose, enabling consistent generation with constant storage and per-step computation
+      regardless of rollout length. To facilitate real-time interactive generation with this robust memory, we further
+      distill the autoregressive model into a few-step generator via dual-teacher distribution matching. On a
+      long-horizon revisit benchmark, World-T<sup>3</sup> raises revisit PSNR from 13.52 to 18.31&nbsp;dB and reduces
+      absolute rotation error from 3.344° to 1.075° relative to the strongest baseline on both metrics, while
+      sustaining 20.6&nbsp;FPS at 1280×704 on a single NVIDIA B200 GPU.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== REVISIT VIDEOS (10 s, 6 methods) ============================== -->
+<section class="section alt" id="revisit">
+  <div class="container wide">
+    <h2>Out-and-Back Revisits</h2>
+    <p class="lead">
+      Each 10-second camera trajectory moves forward for 5&nbsp;s, then retraces its path in reverse.
+      A model with persistent memory should end on the same view it started from. All methods receive the same
+      first frame, text prompt and camera trajectory.
+    </p>
+
+    <div class="tabs" role="tablist" data-tabs="revisit">
+      <button role="tab" class="tab active" data-index="0">Living Room</button>
+      <button role="tab" class="tab" data-index="1">Dining Room</button>
+      <button role="tab" class="tab" data-index="2">Garden Path</button>
+      <button role="tab" class="tab" data-index="3">Foyer</button>
+    </div>
+
+    <div class="video-frame">
+      <video id="revisit-video" class="video" controls muted loop playsinline preload="metadata"
+             poster="static/videos/revisit/case1.jpg" src="static/videos/revisit/case1.mp4"></video>
+    </div>
+    <p class="caption">
+      Top row: <strong class="ours">Ours</strong>, Matrix-Game 3.0, HY-World 1.5.
+      Bottom row: SANA-WM, LingBot-Fast, DreamX-AR. 16&nbsp;FPS, 160 frames.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== LONG ROLLOUTS (30 s, synced 3-up) ============================== -->
+<section class="section" id="long">
+  <div class="container wide">
+    <h2>30-Second Rollouts</h2>
+    <p class="lead">
+      Longer rollouts along real camera motion, with memory updated online throughout.
+      The three videos play on a shared timeline. Keyboard overlays are part of the original recordings.
+    </p>
+
+    <div class="tabs" role="tablist" data-tabs="long">
+      <button role="tab" class="tab active" data-index="0">Basketball Courts</button>
+      <button role="tab" class="tab" data-index="1">Country Path</button>
+      <button role="tab" class="tab" data-index="2">Columned Building</button>
+      <button role="tab" class="tab" data-index="3">Retail Store</button>
+      <button role="tab" class="tab" data-index="4">City Street at Night</button>
+      <button role="tab" class="tab" data-index="5">Outdoor Pool</button>
+    </div>
+
+    <div class="sync-grid" id="long-grid">
+      <div class="sync-cell">
+        <div class="sync-label ours">Ours</div>
+        <video muted playsinline preload="metadata" data-slot="left"></video>
+      </div>
+      <div class="sync-cell">
+        <div class="sync-label">DreamX-AR</div>
+        <video muted playsinline preload="metadata" data-slot="center"></video>
+      </div>
+      <div class="sync-cell">
+        <div class="sync-label">SANA-WM</div>
+        <video muted playsinline preload="metadata" data-slot="right"></video>
+      </div>
+    </div>
+
+    <div class="sync-controls" id="long-controls">
+      <button class="ctrl-btn" data-action="toggle" aria-label="Play / pause">
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+      </button>
+      <input type="range" class="scrubber" min="0" max="1000" value="0" step="1" aria-label="Seek">
+      <span class="time mono">0:00 / 0:29</span>
+      <select class="speed" aria-label="Playback speed">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== METHOD ============================== -->
+<section class="section alt" id="method">
+  <div class="container">
+    <h2>Method</h2>
+    <p class="lead">
+      Starting from a pretrained text-image-to-video diffusion model, World-T<sup>3</sup> is built in three
+      progressive stages: camera control, persistent memory, and few-step real-time generation.
+    </p>
+
+    <div class="stages">
+      <div class="stage">
+        <div class="stage-num">1</div>
+        <h3>Bidirectional camera-conditioned teacher</h3>
+        <p>Plücker raymaps modulate every DiT block through adaptive layer-norm, giving the model 6-DoF camera control.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-num">2</div>
+        <h3>Autoregressive teacher with TTT memory</h3>
+        <p>Block-causal generation over a bounded context, plus a pose-keyed fast-weight memory that absorbs blocks as they leave the context.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-num">3</div>
+        <h3>Dual-teacher few-step distillation</h3>
+        <p>Distribution matching against both teachers compresses sampling to 4 steps while keeping local quality and long-horizon consistency.</p>
+      </div>
+    </div>
+
+    <h3 class="subhead">Test-Time Memory Consolidation</h3>
+    <figure class="figure">
+      <img src="static/images/stage2_memory.webp" alt="Stage 2 architecture: bounded context window, RLS write and pose-keyed read of TTT memory, and gated memory injection into each DiT block." width="2400" height="1280" loading="lazy">
+      <figcaption>
+        <strong>(a)</strong> A persistent sink and the <em>K</em> most recent clean blocks form the bounded context; revisited views may lie beyond it.
+        <strong>(b)</strong> <span class="smallcaps">Write</span>: an evicted block's raymap and hidden state become a key–value pair, consolidated into memory by recursive least squares.
+        <span class="smallcaps">Read</span>: the target pose key retrieves the stored scene feature.
+        <strong>(c)</strong> The retrieved feature is injected into each DiT block through a gated residual.
+      </figcaption>
+    </figure>
+
+    <div class="two-col">
+      <div>
+        <h4>Write: recursive least squares</h4>
+        <p>
+          Smooth camera motion produces near-collinear pose keys. A naive write would keep reinforcing the same
+          directions, so each write instead solves a ridge regression over all past key–value pairs, online:
+        </p>
+        <div class="eq">$$\mathbf{g} = \frac{\mathbf{P}\boldsymbol{\phi}}{w^{-1} + \boldsymbol{\phi}^{\top}\mathbf{P}\boldsymbol{\phi}},\quad
+          \mathbf{W}_2 \leftarrow \mathbf{W}_2 + (\mathbf{v} - \mathbf{W}_2\boldsymbol{\phi})\,\mathbf{g}^{\top},\quad
+          \mathbf{P} \leftarrow \mathbf{P} - \mathbf{g}\,\boldsymbol{\phi}^{\top}\mathbf{P}$$</div>
+        <p>
+          \(\mathbf{P}\boldsymbol{\phi}\) whitens the update, so only the part of the observation that memory does not
+          already hold changes \(\mathbf{W}_2\). The result is the exact ridge solution at every step, independent of
+          observation order.
+        </p>
+      </div>
+      <div>
+        <h4>Read: pose-keyed retrieval</h4>
+        <p>To generate block \(b\), memory is queried with the target camera pose alone:</p>
+        <div class="eq">$$\mathbf{m}_b = \mathbf{W}_2\,\mathrm{gelu}(\mathbf{W}_1\mathbf{k}_b),\qquad
+          \mathbf{h}_b \leftarrow \mathbf{h}_b + \boldsymbol{\gamma}\odot\mathbf{W}_{\text{out}}\,\mathbf{m}_b$$</div>
+        <p>
+          Keys depend only on camera raymaps and values come from clean latents, so memory is decoupled from
+          diffusion noise. Storage is fixed at \((\mathbf{W}_2, \mathbf{P})\) per layer, however long the rollout runs.
+        </p>
+      </div>
+    </div>
+
+    <details class="more">
+      <summary>Stage 1: camera conditioning</summary>
+      <figure class="figure narrow-fig">
+        <img src="static/images/stage1_camera.webp" alt="Stage 1: Plücker raymaps encoded and injected into each DiT block via camera-dependent scale and shift." width="2400" height="1478" loading="lazy">
+        <figcaption>Plücker raymaps modulate each DiT block via camera-dependent scale and shift.</figcaption>
+      </figure>
+    </details>
+  </div>
+</section>
+
+<!-- ============================== RESULTS ============================== -->
+<section class="section" id="results">
+  <div class="container">
+    <h2>Results</h2>
+    <p class="lead">
+      120 out-and-back clips (10&nbsp;s, 1280×704, 16&nbsp;FPS) from the test split. Revisit metrics pair outbound and
+      return frames at the same requested pose, with all gaps beyond our 21-latent-frame context window.
+    </p>
+
+    <div class="results-row">
+      <figure class="figure plot">
+        <img src="static/images/speed_quality.webp" alt="Speed versus revisit PSNR. World-T3 is the only method to the left of the real-time line, and has the highest PSNR." width="1400" height="1181" loading="lazy">
+        <figcaption>Speed vs. quality on one B200. Points left of the dashed line are real-time.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table class="results">
+          <thead>
+            <tr>
+              <th rowspan="2">Method</th>
+              <th rowspan="2">Steps</th>
+              <th colspan="2">Revisit ↑</th>
+              <th colspan="2">Camera ↓</th>
+              <th rowspan="2">FPS ↑</th>
+            </tr>
+            <tr>
+              <th>Sem. Sim.</th><th>PSNR</th>
+              <th>RotErr°</th><th>CamMC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Matrix-Game 3.0</td><td>3</td><td>0.8225</td><td>11.15</td><td>11.179</td><td>0.2958</td><td>7.1</td></tr>
+            <tr><td>HY-World 1.5</td><td>4</td><td>0.8563</td><td>10.84</td><td>12.864</td><td>0.3484</td><td>4.5</td></tr>
+            <tr><td>DreamX-AR</td><td>4</td><td>0.8768</td><td>11.66</td><td>8.011</td><td>0.2276</td><td>11.0</td></tr>
+            <tr><td>LingBot-Fast</td><td>4</td><td>0.8580</td><td>10.59</td><td>9.817</td><td>0.2639</td><td>1.6</td></tr>
+            <tr><td>SANA-WM</td><td>4</td><td>0.9200</td><td>13.52</td><td>3.344</td><td>0.1200</td><td class="second">14.2</td></tr>
+            <tr class="ours-row sep"><td>Ours (Stage 2)</td><td>50</td><td class="second">0.9524</td><td class="second">16.69</td><td class="second">1.308</td><td class="second">0.0381</td><td>4.4</td></tr>
+            <tr class="ours-row"><td>Ours (Stage 3)</td><td>4</td><td class="best">0.9610</td><td class="best">18.31</td><td class="best">1.075</td><td class="best">0.0318</td><td class="best">20.6</td></tr>
+          </tbody>
+        </table>
+        <p class="caption left">
+          <span class="best">Bold</span>: best, <span class="second">underline</span>: second best.
+          Full table with VBench, RPE and peak memory in the paper.
+        </p>
+      </div>
+    </div>
+
+    <h3 class="subhead">Qualitative Comparison</h3>
+    <figure class="figure">
+      <img src="static/images/revisit_indoor.webp" alt="Indoor out-and-back comparison across five methods." width="2400" height="1176" loading="lazy">
+    </figure>
+    <figure class="figure">
+      <img src="static/images/revisit_outdoor.webp" alt="Outdoor out-and-back comparison across five methods." width="2400" height="1176" loading="lazy">
+      <figcaption>
+        Scene consistency along out-and-back trajectories, indoor (top) and outdoor (bottom). The first and last
+        columns compare the initial and return views.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================== BIBTEX ============================== -->
+<section class="section alt" id="bibtex">
+  <div class="container">
+    <h2>BibTeX</h2>
+    <div class="bibtex">
+      <button class="copy-btn" type="button" data-copy="#bibtex-code">Copy</button>
+<pre id="bibtex-code"><code>@article{wu2026worldt3,
+  title   = {World-T$^3$: Test-Time Training as Persistent Memory for Real-Time Video World Models},
+  author  = {Wu, Junyi and Li, Zekun and Yang, Chenhongyi and Guo, Chen and Yang, Lingchen and
+             Zhang, Yongan and Zhang, Xinyi and Hu, Hongbing and Rymkowski, Bartek and
+             Sridhar, Srinath and Yan, Yan and Huang, Xijie},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>
+      Page template inspired by academic project pages. Content licensed under
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
