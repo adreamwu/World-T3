@@ -28,6 +28,7 @@
 
   <link rel="stylesheet" href="static/css/style.css">
   <script defer src="static/js/main.js"></script>
+  <script defer src="static/js/ttt-anim.js"></script>
 </head>
 <body>
 
@@ -260,14 +261,45 @@
           Stage 2 and supplies the reference score for Stage 3.
         </figcaption>
       </figure>
-      <figure class="stage-panel" role="tabpanel" id="stage-panel-2" aria-labelledby="stage-tab-2" hidden>
-        <img class="fig-s2" src="static/images/stage2_memory.webp" alt="Stage 2: bounded context window, RLS write and pose-keyed read of TTT memory, and gated memory injection into each DiT block." width="2400" height="1280" loading="lazy">
-        <figcaption>
-          <strong>Stage 2: Autoregressive teacher with TTT memory.</strong>
-          (a) A persistent sink and the <em>K</em> most recent clean blocks form the bounded context; revisited views may lie beyond it.
-          (b) Evicted blocks are written into the fast-weight memory by recursive least squares and read back by camera pose.
-          (c) The retrieved feature enters each DiT block through a gated residual.
-        </figcaption>
+      <figure class="stage-panel ttt-panel" role="tabpanel" id="stage-panel-2" aria-labelledby="stage-tab-2" hidden>
+        <div class="ttt-anim" id="ttt-anim">
+          <div class="ttt-scroll">
+            <svg class="ttt-svg" viewBox="0 0 2000 1067" role="img" aria-label="Animated version of the Stage 2 figure: a bounded context window and camera revisit, evicted blocks written into the fast-weight memory by recursive least squares, a pose-keyed read, and gated injection into the DiT block."></svg>
+          </div>
+          <div class="ttt-caption">
+            <span class="ttt-pill" id="ttt-pill" data-kind="gen">Generate</span>
+            <p class="ttt-text"><strong id="ttt-title"></strong><span id="ttt-desc"></span></p>
+          </div>
+          <div class="ttt-eq" id="ttt-eq"></div>
+          <div class="ttt-bar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="ttt-ctl">
+            <div class="ttt-steps" role="group" aria-label="Phase">
+              <button type="button" aria-pressed="true">1 · Context</button>
+              <button type="button" aria-pressed="false">2 · Write</button>
+              <button type="button" aria-pressed="false">3 · Read</button>
+              <button type="button" aria-pressed="false">4 · Inject</button>
+            </div>
+            <div class="ttt-btns">
+              <button type="button" id="ttt-play">Pause</button>
+              <button type="button" id="ttt-step">Step</button>
+              <button type="button" id="ttt-restart">Restart</button>
+              <select id="ttt-speed" aria-label="Playback speed">
+                <option value="0.5">0.5×</option>
+                <option value="1" selected>1×</option>
+                <option value="2">2×</option>
+              </select>
+            </div>
+          </div>
+          <p class="ttt-legend">
+            <span><i class="k-ctx"></i>bounded context</span>
+            <span><i class="k-mem"></i>write to memory</span>
+            <span><i class="k-cur"></i>read / target block</span>
+          </p>
+        </div>
+        <details class="paper-fig">
+          <summary>Show the paper figure</summary>
+          <img src="static/images/stage2_memory.webp" alt="Stage 2 architecture from the paper: bounded context window, RLS write and pose-keyed read of TTT memory, and gated memory injection into each DiT block." width="2400" height="1280" loading="lazy">
+        </details>
       </figure>
       <figure class="stage-panel" role="tabpanel" id="stage-panel-3" aria-labelledby="stage-tab-3" hidden>
         <img class="fig-s3" src="static/images/stage3_dmd.svg" alt="Stage 3: the few-step student's rollout is scored by a bidirectional teacher-critic pair and a memory-augmented teacher-critic pair; their DMD gradients are summed to update the student." width="900" height="400" loading="lazy">
