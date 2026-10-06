@@ -113,15 +113,59 @@
     };
   }
 
-  // Captions, step buttons, progress bar, play / step / restart / speed, and the animation clock.
+  // Full-screen view for narrow screens: the panel covers the viewport and the figure is scaled to the largest
+  // size that fits, turned a quarter-turn when that is bigger (a phone held upright).
+  function fullscreen(root) {
+    const expand = root.querySelector(".anim-expand"), close = root.querySelector(".anim-close");
+    const stage = root.querySelector(".anim-stage"), svg = root.querySelector(".anim-svg");
+    if (!expand || !close || !stage) return;
+    const vb = svg.viewBox.baseVal;
+    let isFull = false;
+
+    function layout() {
+      const w = stage.clientWidth, h = stage.clientHeight;
+      if (!isFull || !w || !h) return;
+      const flat = Math.min(w / vb.width, h / vb.height), turned = Math.min(h / vb.width, w / vb.height);
+      const rot = turned > flat * 1.15, k = rot ? turned : flat;
+      Object.assign(svg.style, { width: vb.width * k + "px", height: vb.height * k + "px", left: "50%", top: "50%", transform: "translate(-50%, -50%)" + (rot ? " rotate(90deg)" : "") });
+    }
+    function open() {
+      if (isFull) return;
+      isFull = true;
+      root.classList.add("is-full");
+      root.setAttribute("role", "dialog"); root.setAttribute("aria-modal", "true");
+      document.documentElement.classList.add("anim-lock");
+      history.pushState({ anim: root.id }, ""); // so the phone's back button closes it
+      layout();
+      close.focus();
+    }
+    function shut(fromHistory) {
+      if (!isFull) return;
+      isFull = false;
+      root.classList.remove("is-full");
+      root.removeAttribute("role"); root.removeAttribute("aria-modal");
+      document.documentElement.classList.remove("anim-lock");
+      svg.removeAttribute("style");
+      if (!fromHistory && history.state && history.state.anim === root.id) history.back();
+      expand.focus();
+    }
+    expand.addEventListener("click", open);
+    close.addEventListener("click", () => shut(false));
+    window.addEventListener("popstate", () => shut(true));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") shut(false); });
+    new ResizeObserver(layout).observe(stage);
+  }
+
+  // Captions, phase buttons, a draggable timeline, play / restart / speed, and the animation clock.
+  // render(t, animating): animating is false while paused or scrubbing, so a pinned frame shows its phase in full.
   function clock({ root, phases, phaseMs, render }) {
     const $ = (sel) => root.querySelector(sel);
     const pill = $(".anim-pill"), title = $(".anim-title"), desc = $(".anim-desc"), eq = $(".anim-eq");
     const steps = [...root.querySelectorAll(".anim-steps button")];
-    const bars = [...root.querySelectorAll(".anim-bar i")];
+    const scrub = $(".anim-scrub");
     const playBtn = $(".anim-play"), speedSel = $(".anim-speed");
     const N = phases.length;
-    let shown = -1, t = 0.1, playing = true, inView = false, last = 0, raf = 0, speed = 1;
+    let shown = -1, t = 0.1, playing = true, inView = false, last = 0, raf = 0, speed = 1, scrubbing = false, resume = false;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) { playing = false; t = N - 1.1; }
 
     function renderEq() {
@@ -139,9 +183,10 @@
       renderEq();
     }
     function draw() {
-      render(t);
+      render(t, playing);
       setCaption(Math.floor(t) % N);
-      bars.forEach((b, k) => { b.style.backgroundSize = (t >= k + 1 ? 100 : t >= k ? (t - k) * 100 : 0) + "% 100%"; });
+      if (!scrubbing) scrub.value = (t / N) * 1000;
+      scrub.style.setProperty("--p", scrub.value / 10 + "%");
     }
     const running = () => playing && inView && !document.hidden;
     function frame(ts) {
@@ -157,12 +202,22 @@
       playBtn.setAttribute("aria-pressed", String(!playing));
       if (!raf && running()) { last = 0; raf = requestAnimationFrame(frame); }
     }
-    const jump = (k) => { playing = false; t = k + .9; draw(); kick(); };
+    const jump = (k) => { t = k; draw(); }; // a phase button seeks to the start of that phase, keeping play / pause as is
 
     playBtn.addEventListener("click", () => { playing = !playing; kick(); });
-    $(".anim-step").addEventListener("click", () => jump((Math.floor(t) + 1) % N));
     $(".anim-restart").addEventListener("click", () => { t = 0; playing = true; draw(); kick(); });
     steps.forEach((b, k) => b.addEventListener("click", () => jump(k)));
+    // dragging the timeline pauses playback, then resumes on release if it was playing
+    scrub.addEventListener("input", () => {
+      scrubbing = true;
+      if (playing) { resume = true; playing = false; kick(); }
+      t = (Math.min(Number(scrub.value), 999.9) / 1000) * N;
+      draw();
+    });
+    scrub.addEventListener("change", () => {
+      scrubbing = false;
+      if (resume) { resume = false; playing = true; kick(); }
+    });
     speedSel.addEventListener("change", () => { speed = Number(speedSel.value); });
 
     // only run while visible (a panel stays hidden until its stage card is selected)
@@ -170,6 +225,7 @@
     document.addEventListener("visibilitychange", kick);
     window.addEventListener("load", renderEq);
 
+    fullscreen(root);
     draw();
     root.__setTime = (v) => { playing = false; t = v; draw(); kick(); }; // lets tests pin a frame
   }

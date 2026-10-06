@@ -222,12 +222,12 @@
   const highlight = (plate, v, a = .16) => plate.setAttribute("opacity", v * a);
   const ROW_MID = [510, 601, 834, 916];
 
-  function render(tAbs) {
+  function render(tAbs, animating) {
     const ph = Math.floor(tAbs) % 4, p = tAbs - Math.floor(tAbs), prev = (ph + 3) % 4;
-    const blend = ease(seg(p, 0, .2));
+    const blend = animating ? ease(seg(p, 0, .2)) : 1;
     for (const k in GROUPS) GROUPS[k].setAttribute("opacity", lerp(FOCUS[k][prev], FOCUS[k][ph], blend));
     // soft cross-fade when the loop wraps
-    scene.setAttribute("opacity", ph === 3 ? 1 - ease(seg(p, .94, 1)) * .8 : ph === 0 ? .2 + ease(seg(p, 0, .08)) * .8 : 1);
+    scene.setAttribute("opacity", !animating ? 1 : ph === 3 ? 1 - ease(seg(p, .94, 1)) * .8 : ph === 0 ? .2 + ease(seg(p, 0, .08)) * .8 : 1);
 
     // (a) context: a ripple of attention runs over the conditioning blocks, then the target
     glows.forEach((g, i) => g.setAttribute("opacity", ph === 0 ? bump(p, .06 + i * .13, .3 + i * .13) * .45 : 0));

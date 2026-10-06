@@ -267,8 +267,7 @@ p { margin: 0 0 1em; }
 
 /* ---------- Stage 2 walkthrough ---------- */
 .anim-panel { padding: 22px 22px 14px; }
-.anim-scroll { overflow-x: auto; }
-.anim-svg { display: block; width: 100%; min-width: 720px; height: auto; }
+.anim-svg { display: block; width: 100%; height: auto; }
 
 .anim-caption { display: flex; align-items: baseline; gap: 14px; margin: 14px 4px 6px; color: #26323f; }
 .anim-text { margin: 0; font-size: .95rem; line-height: 1.55; }
@@ -281,9 +280,37 @@ p { margin: 0 0 1em; }
 .anim-pill[data-kind="green"] { color: #3f6e50; background: #e8f1ea; }
 .anim-pill[data-kind="orange"] { color: #a2602c; background: #fbeadc; }
 .anim-eq { min-height: 3.1rem; display: grid; place-items: center; overflow-x: auto; color: #26323f; font-size: 1.05rem; padding: 2px 4px; }
-.anim-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 4px 0 12px; }
-.anim-bar i { display: block; height: 2px; border-radius: 2px; background: linear-gradient(#0a4fb3, #0a4fb3) left / 0 100% no-repeat #e3e8ee; }
 
+.anim-scrub {
+  --p: 0%;
+  display: block; width: 100%; height: 18px; margin: 2px 0 10px; padding: 0; background: none; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+}
+.anim-scrub:focus-visible { outline: 2px solid #0a4fb3; outline-offset: 4px; border-radius: 6px; }
+/* track: filled part in the accent colour, thin gaps at the phase boundaries */
+.anim-scrub::-webkit-slider-runnable-track {
+  height: 5px; border-radius: 3px;
+  background:
+    linear-gradient(#fff, #fff) 25% 0 / 3px 100% no-repeat,
+    linear-gradient(#fff, #fff) 50% 0 / 3px 100% no-repeat,
+    linear-gradient(#fff, #fff) 75% 0 / 3px 100% no-repeat,
+    linear-gradient(90deg, #0a4fb3 var(--p), #e3e8ee var(--p));
+}
+.anim-scrub::-moz-range-track {
+  height: 5px; border-radius: 3px;
+  background:
+    linear-gradient(#fff, #fff) 25% 0 / 3px 100% no-repeat,
+    linear-gradient(#fff, #fff) 50% 0 / 3px 100% no-repeat,
+    linear-gradient(#fff, #fff) 75% 0 / 3px 100% no-repeat,
+    linear-gradient(90deg, #0a4fb3 var(--p), #e3e8ee var(--p));
+}
+.anim-scrub::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px; margin-top: -5.5px; border-radius: 50%;
+  background: #fff; border: 3px solid #0a4fb3; box-shadow: 0 1px 3px rgba(28, 43, 51, .25);
+}
+.anim-scrub::-moz-range-thumb {
+  width: 11px; height: 11px; border-radius: 50%; background: #fff; border: 3px solid #0a4fb3; box-shadow: 0 1px 3px rgba(28, 43, 51, .25);
+}
 .anim-ctl { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
 .anim-steps, .anim-btns { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .anim-ctl button, .anim-ctl select {
@@ -369,3 +396,28 @@ table.results tr.ours-row td:first-child { font-weight: 650; color: var(--accent
 
 /* Let grid children shrink below their content width (wide tables / equations scroll instead). */
 .results-row > *, .two-col > *, .stages > *, .stats > * { min-width: 0; }
+
+/* ---------- full-screen view of the walkthroughs (narrow screens only) ---------- */
+.anim-top, .anim-close { display: none; }
+.anim-expand, .anim-close {
+  align-items: center; gap: 6px; cursor: pointer;
+  font: 500 .82rem var(--font); color: #26323f; background: #fff;
+  padding: 6px 12px; border: 1px solid #dee3e9; border-radius: 8px;
+}
+.anim-expand { display: inline-flex; }
+@media (max-width: 700px) {
+  .anim-top { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+}
+html.anim-lock, html.anim-lock body { overflow: hidden; }
+.anim.is-full {
+  position: fixed; inset: 0; z-index: 300; display: flex; flex-direction: column; overflow: hidden;
+  background: #fff; padding: max(10px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+}
+.anim.is-full .anim-top, .anim.is-full .anim-desc, .anim.is-full .anim-eq, .anim.is-full .anim-legend { display: none; }
+.anim.is-full .anim-stage { position: relative; flex: 1; min-height: 0; }
+.anim.is-full .anim-svg { position: absolute; }
+.anim.is-full .anim-caption { flex-direction: row; align-items: center; margin: 8px 0 4px; }
+.anim.is-full .anim-text { flex: 1; min-width: 0; font-size: .85rem; line-height: 1.35; }
+.anim.is-full .anim-close { display: inline-flex; flex: none; }
+.anim.is-full .anim-ctl { gap: 6px; }
+.anim.is-full .anim-ctl button, .anim.is-full .anim-ctl select { padding: 5px 9px; font-size: .78rem; }

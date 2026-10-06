@@ -265,15 +265,22 @@
       </figure>
       <figure class="stage-panel anim-panel" role="tabpanel" id="stage-panel-2" aria-labelledby="stage-tab-2" hidden>
         <div class="anim" id="ttt-anim">
-          <div class="anim-scroll">
-            <svg class="anim-svg" viewBox="0 0 2000 1067" role="img" aria-label="Animated version of the Stage 2 figure: a bounded context window and camera revisit, evicted blocks written into the fast-weight memory by recursive least squares, a pose-keyed read, and gated injection into the DiT block."></svg>
+          <div class="anim-top">
+            <button type="button" class="anim-expand" aria-label="Enlarge the animation">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Enlarge
+            </button>
+          </div>
+          <div class="anim-stage">
+          <svg class="anim-svg" viewBox="0 0 2000 1067" role="img" aria-label="Animated version of the Stage 2 figure: a bounded context window and camera revisit, evicted blocks written into the fast-weight memory by recursive least squares, a pose-keyed read, and gated injection into the DiT block."></svg>
           </div>
           <div class="anim-caption">
             <span class="anim-pill" data-kind="blue"></span>
             <p class="anim-text"><strong class="anim-title"></strong><span class="anim-desc"></span></p>
+            <button type="button" class="anim-close" aria-label="Close full screen">Close ✕</button>
           </div>
           <div class="anim-eq"></div>
-          <div class="anim-bar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <input type="range" class="anim-scrub" min="0" max="1000" step="1" value="0" aria-label="Seek through the animation">
           <div class="anim-ctl">
             <div class="anim-steps" role="group" aria-label="Phase">
               <button type="button" aria-pressed="true">1 · Context</button>
@@ -283,7 +290,6 @@
             </div>
             <div class="anim-btns">
               <button type="button" class="anim-play">Pause</button>
-              <button type="button" class="anim-step">Step</button>
               <button type="button" class="anim-restart">Restart</button>
               <select class="anim-speed" aria-label="Playback speed">
                 <option value="0.5">0.5×</option>
@@ -301,15 +307,22 @@
       </figure>
       <figure class="stage-panel anim-panel" role="tabpanel" id="stage-panel-3" aria-labelledby="stage-tab-3" hidden>
         <div class="anim" id="dmd-anim">
-          <div class="anim-scroll">
-            <svg class="anim-svg" viewBox="0 0 2000 1060" role="img" aria-label="Animated diagram of Stage 3: a four-step student rolls out video, a noised sample is scored by a bidirectional teacher-critic pair and a memory-augmented teacher-critic pair, and the two distribution-matching gradients are summed to update the student."></svg>
+          <div class="anim-top">
+            <button type="button" class="anim-expand" aria-label="Enlarge the animation">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Enlarge
+            </button>
+          </div>
+          <div class="anim-stage">
+          <svg class="anim-svg" viewBox="0 0 2000 1060" role="img" aria-label="Animated diagram of Stage 3: a four-step student rolls out video, a noised sample is scored by a bidirectional teacher-critic pair and a memory-augmented teacher-critic pair, and the two distribution-matching gradients are summed to update the student."></svg>
           </div>
           <div class="anim-caption">
             <span class="anim-pill" data-kind="orange"></span>
             <p class="anim-text"><strong class="anim-title"></strong><span class="anim-desc"></span></p>
+            <button type="button" class="anim-close" aria-label="Close full screen">Close ✕</button>
           </div>
           <div class="anim-eq"></div>
-          <div class="anim-bar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <input type="range" class="anim-scrub" min="0" max="1000" step="1" value="0" aria-label="Seek through the animation">
           <div class="anim-ctl">
             <div class="anim-steps" role="group" aria-label="Phase">
               <button type="button" aria-pressed="true">1 · Rollout</button>
@@ -319,7 +332,6 @@
             </div>
             <div class="anim-btns">
               <button type="button" class="anim-play">Pause</button>
-              <button type="button" class="anim-step">Step</button>
               <button type="button" class="anim-restart">Restart</button>
               <select class="anim-speed" aria-label="Playback speed">
                 <option value="0.5">0.5×</option>

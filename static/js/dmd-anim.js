@@ -183,11 +183,11 @@
   const GROUPS = { st: gStudent, init: gInit, roll: gRoll, zt: gZt, L: gL, R: gR, mem: gMem, pills: gPills, upd: gUpd };
   const BLOCK_AT = [.08, .28, .48, .68];
 
-  function render(tAbs) {
+  function render(tAbs, animating) {
     const ph = Math.floor(tAbs) % 4, p = tAbs - Math.floor(tAbs), prev = (ph + 3) % 4;
-    const blend = ease(seg(p, 0, .2));
+    const blend = animating ? ease(seg(p, 0, .2)) : 1;
     for (const k in GROUPS) GROUPS[k].setAttribute("opacity", lerp(FOCUS[k][prev], FOCUS[k][ph], blend));
-    scene.setAttribute("opacity", ph === 3 ? 1 - ease(seg(p, .94, 1)) * .8 : ph === 0 ? .2 + ease(seg(p, 0, .08)) * .8 : 1);
+    scene.setAttribute("opacity", !animating ? 1 : ph === 3 ? 1 - ease(seg(p, .94, 1)) * .8 : ph === 0 ? .2 + ease(seg(p, 0, .08)) * .8 : 1);
 
     // (a) the student rolls out block by block, each denoised in four steps
     steps.forEach((s, i) => {
