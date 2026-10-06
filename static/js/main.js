@@ -118,6 +118,33 @@ function initLongRollouts() {
   load(LONG_SCENES[0]);
 }
 
+// ---- Method stage cards (tabs controlling one figure panel) --------------
+function initStages() {
+  const tabs = [...document.querySelectorAll('.stages [role="tab"]')];
+  if (!tabs.length) return;
+
+  const select = (tab, focus = false) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.classList.toggle("active", on);
+      t.setAttribute("aria-selected", on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+    if (focus) tab.focus();
+  };
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener("click", () => select(tab));
+    tab.addEventListener("keydown", (e) => {
+      const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (!step) return;
+      e.preventDefault();
+      select(tabs[(i + step + tabs.length) % tabs.length], true);
+    });
+  });
+}
+
 // ---- BibTeX copy -------------------------------------------------------
 function initCopy() {
   document.querySelectorAll("[data-copy]").forEach((btn) => {
@@ -150,6 +177,7 @@ function initMath() {
 document.addEventListener("DOMContentLoaded", () => {
   initRevisit();
   initLongRollouts();
+  initStages();
   initCopy();
 });
 // KaTeX scripts are deferred too; render once everything has loaded.

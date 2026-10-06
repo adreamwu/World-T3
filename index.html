@@ -37,7 +37,7 @@
     <a class="brand" href="#top">World-T<sup>3</sup></a>
     <div class="topnav-links">
       <a href="#revisit">Revisit</a>
-      <a href="#long">Long Rollouts</a>
+      <a href="#long">Longer Generation</a>
       <a href="#method">Method</a>
       <a href="#results">Results</a>
       <a href="#bibtex">BibTeX</a>
@@ -50,23 +50,23 @@
   <div class="container">
     <h1 class="title">
       <span class="title-name">World-T<sup>3</sup></span>
-      <span class="title-sub">Test-Time Training as Persistent Memory for Real-Time Video World Models</span>
+      <span class="title-sub">Test-Time Training as Persistent Memory<br class="br-desktop"> for Real-Time Video World Models</span>
     </h1>
 
-    <!-- TODO: fill in personal homepage links -->
+    <!-- Author links: personal homepage where available; otherwise Google Scholar (Yongan Zhang, Xinyi Zhang, Hongbing Hu) or LinkedIn (Bartek Rymkowski). -->
     <p class="authors">
-      <span class="author"><a href="#">Junyi Wu</a><sup>1,2,*</sup></span>
-      <span class="author"><a href="#">Zekun Li</a><sup>1,3,*</sup></span>
-      <span class="author"><a href="#">Chenhongyi Yang</a><sup>1</sup></span>
-      <span class="author"><a href="#">Chen Guo</a><sup>1</sup></span>
-      <span class="author"><a href="#">Lingchen Yang</a><sup>1</sup></span>
-      <span class="author"><a href="#">Yongan Zhang</a><sup>1</sup></span>
-      <span class="author"><a href="#">Xinyi Zhang</a><sup>1</sup></span>
-      <span class="author"><a href="#">Hongbing Hu</a><sup>1</sup></span>
-      <span class="author"><a href="#">Bartek Rymkowski</a><sup>1</sup></span>
-      <span class="author"><a href="#">Srinath Sridhar</a><sup>3,†</sup></span>
-      <span class="author"><a href="#">Yan Yan</a><sup>2,†</sup></span>
-      <span class="author"><a href="#">Xijie Huang</a><sup>1,†,‡</sup></span>
+      <span class="author"><a href="https://adreamwu.github.io/" target="_blank" rel="noopener">Junyi Wu</a><sup>1,2,*</sup></span>
+      <span class="author"><a href="https://kunkun0w0.github.io/" target="_blank" rel="noopener">Zekun Li</a><sup>1,3,*</sup></span>
+      <span class="author"><a href="https://chenhongyiyang.github.io/" target="_blank" rel="noopener">Chenhongyi Yang</a><sup>1</sup></span>
+      <span class="author"><a href="https://moygcc.github.io/" target="_blank" rel="noopener">Chen Guo</a><sup>1</sup></span>
+      <span class="author"><a href="https://lingchen-chen.github.io/" target="_blank" rel="noopener">Lingchen Yang</a><sup>1</sup></span>
+      <span class="author"><a href="https://scholar.google.com/citations?user=s3Qbrl0AAAAJ" target="_blank" rel="noopener">Yongan Zhang</a><sup>1</sup></span>
+      <span class="author"><a href="https://scholar.google.com/citations?user=J6SP0wMAAAAJ" target="_blank" rel="noopener">Xinyi Zhang</a><sup>1</sup></span>
+      <span class="author"><a href="https://scholar.google.com/citations?user=WofDdI8AAAAJ" target="_blank" rel="noopener">Hongbing Hu</a><sup>1</sup></span>
+      <span class="author"><a href="https://www.linkedin.com/in/rymkowski/" target="_blank" rel="noopener">Bartek Rymkowski</a><sup>1</sup></span>
+      <span class="author"><a href="https://srinathsridhar.com/" target="_blank" rel="noopener">Srinath Sridhar</a><sup>3,†</sup></span>
+      <span class="author"><a href="https://tomyan555.github.io/" target="_blank" rel="noopener">Yan Yan</a><sup>2,†</sup></span>
+      <span class="author"><a href="https://huangowen.github.io/" target="_blank" rel="noopener">Xijie Huang</a><sup>1,†,‡</sup></span>
     </p>
     <p class="affiliations">
       <span><sup>1</sup>Meta Reality Labs</span>
@@ -88,10 +88,6 @@
       <a class="btn" href="#" aria-label="arXiv">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20"/></svg>
         arXiv
-      </a>
-      <a class="btn disabled" href="#" aria-label="Code (coming soon)">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
-        Code <small>(soon)</small>
       </a>
       <a class="btn" href="#bibtex">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
@@ -180,21 +176,13 @@
       <video id="revisit-video" class="video" controls muted loop playsinline preload="metadata"
              poster="static/videos/revisit/case1.jpg" src="static/videos/revisit/case1.mp4"></video>
     </div>
-    <p class="caption">
-      Top row: <strong class="ours">Ours</strong>, Matrix-Game 3.0, HY-World 1.5.
-      Bottom row: SANA-WM, LingBot-Fast, DreamX-AR. 16&nbsp;FPS, 160 frames.
-    </p>
   </div>
 </section>
 
 <!-- ============================== LONG ROLLOUTS (30 s, synced 3-up) ============================== -->
 <section class="section" id="long">
   <div class="container wide">
-    <h2>30-Second Rollouts</h2>
-    <p class="lead">
-      Longer rollouts along real camera motion, with memory updated online throughout.
-      The three videos play on a shared timeline. Keyboard overlays are part of the original recordings.
-    </p>
+    <h2>Longer Generation with Revisits</h2>
 
     <div class="tabs" role="tablist" data-tabs="long">
       <button role="tab" class="tab active" data-index="0">Basketball Courts</button>
@@ -242,73 +230,55 @@
     <h2>Method</h2>
     <p class="lead">
       Starting from a pretrained text-image-to-video diffusion model, World-T<sup>3</sup> is built in three
-      progressive stages: camera control, persistent memory, and few-step real-time generation.
+      progressive stages.
     </p>
 
-    <div class="stages">
-      <div class="stage">
-        <div class="stage-num">1</div>
-        <h3>Bidirectional camera-conditioned teacher</h3>
-        <p>Plücker raymaps modulate every DiT block through adaptive layer-norm, giving the model 6-DoF camera control.</p>
-      </div>
-      <div class="stage">
-        <div class="stage-num">2</div>
-        <h3>Autoregressive teacher with TTT memory</h3>
-        <p>Block-causal generation over a bounded context, plus a pose-keyed fast-weight memory that absorbs blocks as they leave the context.</p>
-      </div>
-      <div class="stage">
-        <div class="stage-num">3</div>
-        <h3>Dual-teacher few-step distillation</h3>
-        <p>Distribution matching against both teachers compresses sampling to 4 steps while keeping local quality and long-horizon consistency.</p>
-      </div>
+    <div class="stages" role="tablist" aria-label="Training stages">
+      <button class="stage active" type="button" role="tab" id="stage-tab-1" aria-controls="stage-panel-1" aria-selected="true">
+        <span class="stage-num">1</span>
+        <span class="stage-title">Bidirectional camera-conditioned teacher</span>
+        <span class="stage-desc">Plücker raymaps modulate every DiT block through adaptive layer-norm, giving the model 6-DoF camera control.</span>
+      </button>
+      <button class="stage" type="button" role="tab" id="stage-tab-2" aria-controls="stage-panel-2" aria-selected="false" tabindex="-1">
+        <span class="stage-num">2</span>
+        <span class="stage-title">Autoregressive teacher with TTT memory</span>
+        <span class="stage-desc">Block-causal generation over a bounded context, plus a pose-keyed fast-weight memory that absorbs blocks as they leave the context.</span>
+      </button>
+      <button class="stage" type="button" role="tab" id="stage-tab-3" aria-controls="stage-panel-3" aria-selected="false" tabindex="-1">
+        <span class="stage-num">3</span>
+        <span class="stage-title">Dual-teacher few-step distillation</span>
+        <span class="stage-desc">Distribution matching against both teachers compresses sampling to 4 steps while keeping local quality and long-horizon consistency.</span>
+      </button>
     </div>
 
-    <h3 class="subhead">Test-Time Memory Consolidation</h3>
-    <figure class="figure">
-      <img src="static/images/stage2_memory.webp" alt="Stage 2 architecture: bounded context window, RLS write and pose-keyed read of TTT memory, and gated memory injection into each DiT block." width="2400" height="1280" loading="lazy">
-      <figcaption>
-        <strong>(a)</strong> A persistent sink and the <em>K</em> most recent clean blocks form the bounded context; revisited views may lie beyond it.
-        <strong>(b)</strong> <span class="smallcaps">Write</span>: an evicted block's raymap and hidden state become a key–value pair, consolidated into memory by recursive least squares.
-        <span class="smallcaps">Read</span>: the target pose key retrieves the stored scene feature.
-        <strong>(c)</strong> The retrieved feature is injected into each DiT block through a gated residual.
-      </figcaption>
-    </figure>
-
-    <div class="two-col">
-      <div>
-        <h4>Write: recursive least squares</h4>
-        <p>
-          Smooth camera motion produces near-collinear pose keys. A naive write would keep reinforcing the same
-          directions, so each write instead solves a ridge regression over all past key–value pairs, online:
-        </p>
-        <div class="eq">$$\mathbf{g} = \frac{\mathbf{P}\boldsymbol{\phi}}{w^{-1} + \boldsymbol{\phi}^{\top}\mathbf{P}\boldsymbol{\phi}},\quad
-          \mathbf{W}_2 \leftarrow \mathbf{W}_2 + (\mathbf{v} - \mathbf{W}_2\boldsymbol{\phi})\,\mathbf{g}^{\top},\quad
-          \mathbf{P} \leftarrow \mathbf{P} - \mathbf{g}\,\boldsymbol{\phi}^{\top}\mathbf{P}$$</div>
-        <p>
-          \(\mathbf{P}\boldsymbol{\phi}\) whitens the update, so only the part of the observation that memory does not
-          already hold changes \(\mathbf{W}_2\). The result is the exact ridge solution at every step, independent of
-          observation order.
-        </p>
-      </div>
-      <div>
-        <h4>Read: pose-keyed retrieval</h4>
-        <p>To generate block \(b\), memory is queried with the target camera pose alone:</p>
-        <div class="eq">$$\mathbf{m}_b = \mathbf{W}_2\,\mathrm{gelu}(\mathbf{W}_1\mathbf{k}_b),\qquad
-          \mathbf{h}_b \leftarrow \mathbf{h}_b + \boldsymbol{\gamma}\odot\mathbf{W}_{\text{out}}\,\mathbf{m}_b$$</div>
-        <p>
-          Keys depend only on camera raymaps and values come from clean latents, so memory is decoupled from
-          diffusion noise. Storage is fixed at \((\mathbf{W}_2, \mathbf{P})\) per layer, however long the rollout runs.
-        </p>
-      </div>
-    </div>
-
-    <details class="more">
-      <summary>Stage 1: camera conditioning</summary>
-      <figure class="figure narrow-fig">
-        <img src="static/images/stage1_camera.webp" alt="Stage 1: Plücker raymaps encoded and injected into each DiT block via camera-dependent scale and shift." width="2400" height="1478" loading="lazy">
-        <figcaption>Plücker raymaps modulate each DiT block via camera-dependent scale and shift.</figcaption>
+    <div class="stage-panels">
+      <figure class="stage-panel" role="tabpanel" id="stage-panel-1" aria-labelledby="stage-tab-1">
+        <img class="fig-s1" src="static/images/stage1_camera.webp" alt="Stage 1: Plücker raymaps are encoded and injected into each DiT block via camera-dependent scale and shift." width="2400" height="1478">
+        <figcaption>
+          <strong>Stage 1: Camera conditioning.</strong> Each frame's camera is encoded as a Plücker raymap, which modulates every
+          DiT block via camera-dependent scale and shift. Attending bidirectionally over the whole clip, this teacher initializes
+          Stage 2 and supplies the reference score for Stage 3.
+        </figcaption>
       </figure>
-    </details>
+      <figure class="stage-panel" role="tabpanel" id="stage-panel-2" aria-labelledby="stage-tab-2" hidden>
+        <img class="fig-s2" src="static/images/stage2_memory.webp" alt="Stage 2: bounded context window, RLS write and pose-keyed read of TTT memory, and gated memory injection into each DiT block." width="2400" height="1280" loading="lazy">
+        <figcaption>
+          <strong>Stage 2: Autoregressive teacher with TTT memory.</strong>
+          (a) A persistent sink and the <em>K</em> most recent clean blocks form the bounded context; revisited views may lie beyond it.
+          (b) Evicted blocks are written into the fast-weight memory by recursive least squares and read back by camera pose.
+          (c) The retrieved feature enters each DiT block through a gated residual.
+        </figcaption>
+      </figure>
+      <figure class="stage-panel" role="tabpanel" id="stage-panel-3" aria-labelledby="stage-tab-3" hidden>
+        <img class="fig-s3" src="static/images/stage3_dmd.svg" alt="Stage 3: the few-step student's rollout is scored by a bidirectional teacher-critic pair and a memory-augmented teacher-critic pair; their DMD gradients are summed to update the student." width="900" height="400" loading="lazy">
+        <figcaption>
+          <strong>Stage 3: Dual-teacher few-step distillation.</strong> After consistency distillation to 4 steps, the student is
+          refined with distribution matching. Each teacher is paired with a critic trained on student samples; the memory-augmented
+          pair replays TTT memory over the student's own rollout, penalizing long-horizon drift.
+        </figcaption>
+      </figure>
+    </div>
+
   </div>
 </section>
 
