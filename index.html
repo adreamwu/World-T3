@@ -176,8 +176,22 @@
     </div>
 
     <div class="video-frame">
-      <video id="revisit-video" class="video" controls muted loop playsinline preload="metadata"
+      <video id="revisit-video" class="video" muted playsinline preload="metadata"
              poster="static/videos/revisit/case1.jpg" src="static/videos/revisit/case1.mp4"></video>
+    </div>
+
+    <div class="sync-controls" id="revisit-controls">
+      <button class="ctrl-btn" data-action="toggle" aria-label="Play / pause">
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+      </button>
+      <input type="range" class="scrubber" min="0" max="1000" value="0" step="1" aria-label="Seek">
+      <span class="time mono">0:00 / 0:10</span>
+      <select class="speed" aria-label="Playback speed">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+      </select>
     </div>
   </div>
 </section>

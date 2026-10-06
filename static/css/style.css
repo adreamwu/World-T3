@@ -179,7 +179,7 @@ p { margin: 0 0 1em; }
 
 /* ---------- videos ---------- */
 .video-frame { background: var(--video-bg); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
-.video { width: 100%; height: auto; aspect-ratio: 2224 / 932; }
+.video { width: 100%; height: auto; aspect-ratio: 2224 / 932; cursor: pointer; }
 
 .sync-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .sync-cell { position: relative; }

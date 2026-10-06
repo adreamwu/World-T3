@@ -27,26 +27,9 @@ function bindTabs(name, onSelect) {
   });
 }
 
-// ---- 10 s revisit videos (single stitched video) -------------------------
-function initRevisit() {
-  const video = document.getElementById("revisit-video");
-  if (!video) return;
-  bindTabs("revisit", (i) => {
-    const id = REVISIT_CASES[i];
-    const wasPlaying = !video.paused;
-    video.poster = `static/videos/revisit/${id}.jpg`;
-    video.src = `static/videos/revisit/${id}.mp4`;
-    if (wasPlaying) video.play().catch(() => {});
-  });
-}
-
-// ---- 30 s synchronized 3-up player ---------------------------------------
-function initLongRollouts() {
-  const grid = document.getElementById("long-grid");
-  const controls = document.getElementById("long-controls");
-  if (!grid || !controls) return;
-
-  const videos = LONG_SLOTS.map((slot) => grid.querySelector(`video[data-slot="${slot}"]`));
+// ---- Video player: custom controls over one or several time-locked videos ----
+// The first video is the master; the others are kept within a couple of frames of it.
+function createPlayer(videos, controls) {
   const master = videos[0];
   const btn = controls.querySelector('[data-action="toggle"]');
   const scrubber = controls.querySelector(".scrubber");
@@ -54,23 +37,14 @@ function initLongRollouts() {
   const speedEl = controls.querySelector(".speed");
   let scrubbing = false;
 
-  const load = (sceneId) => {
-    videos.forEach((v, i) => {
-      v.pause();
-      v.poster = `static/videos/long/${sceneId}-${LONG_SLOTS[i]}.jpg`;
-      v.src = `static/videos/long/${sceneId}-${LONG_SLOTS[i]}.mp4`;
-      v.playbackRate = Number(speedEl.value);
-    });
-    btn.classList.remove("playing");
-    scrubber.value = 0;
-    updateTime();
-  };
-
   const isPlaying = () => !master.paused && !master.ended;
-  const play = () => {
-    videos.forEach((v) => { v.currentTime = master.currentTime; });
+  const startAll = () => {
     Promise.all(videos.map((v) => v.play().catch(() => {})));
     btn.classList.add("playing");
+  };
+  const play = () => {
+    videos.forEach((v) => { v.currentTime = master.currentTime; });
+    startAll();
   };
   const pause = () => {
     videos.forEach((v) => v.pause());
@@ -84,7 +58,6 @@ function initLongRollouts() {
     if (!scrubbing && d) scrubber.value = Math.round((master.currentTime / d) * 1000);
   }
 
-  // Keep followers within ~2 frames of the master.
   master.addEventListener("timeupdate", () => {
     updateTime();
     if (!isPlaying()) return;
@@ -94,7 +67,7 @@ function initLongRollouts() {
   });
   master.addEventListener("loadedmetadata", updateTime);
   master.addEventListener("ended", () => {
-    // Loop all three together.
+    // loop everything together
     videos.forEach((v) => { v.currentTime = 0; });
     play();
   });
@@ -109,13 +82,49 @@ function initLongRollouts() {
     timeEl.textContent = `${fmt(t)} / ${fmt(master.duration)}`;
   });
   scrubber.addEventListener("change", () => { scrubbing = false; });
-
   speedEl.addEventListener("change", () => {
     videos.forEach((v) => { v.playbackRate = Number(speedEl.value); });
   });
 
-  bindTabs("long", (i) => load(LONG_SCENES[i]));
-  load(LONG_SCENES[0]);
+  // sources: [{ src, poster }] in the same order as `videos`. keepPlaying carries play / pause over to the new clip.
+  function load(sources, keepPlaying = false) {
+    const resume = keepPlaying && isPlaying();
+    videos.forEach((v, i) => {
+      v.pause();
+      v.poster = sources[i].poster;
+      v.src = sources[i].src;
+      v.playbackRate = Number(speedEl.value);
+    });
+    btn.classList.remove("playing");
+    scrubber.value = 0;
+    updateTime();
+    if (resume) startAll();
+  }
+  return { load };
+}
+
+// ---- 10 s out-and-back revisits (one stitched video, six methods) -----------
+function initRevisit() {
+  const video = document.getElementById("revisit-video");
+  const controls = document.getElementById("revisit-controls");
+  if (!video || !controls) return;
+  const player = createPlayer([video], controls);
+  bindTabs("revisit", (i) => {
+    const id = REVISIT_CASES[i];
+    player.load([{ src: `static/videos/revisit/${id}.mp4`, poster: `static/videos/revisit/${id}.jpg` }], true);
+  });
+}
+
+// ---- 30 s synchronized 3-up player ---------------------------------------
+function initLongRollouts() {
+  const grid = document.getElementById("long-grid");
+  const controls = document.getElementById("long-controls");
+  if (!grid || !controls) return;
+  const videos = LONG_SLOTS.map((slot) => grid.querySelector(`video[data-slot="${slot}"]`));
+  const player = createPlayer(videos, controls);
+  const sources = (id) => LONG_SLOTS.map((slot) => ({ src: `static/videos/long/${id}-${slot}.mp4`, poster: `static/videos/long/${id}-${slot}.jpg` }));
+  bindTabs("long", (i) => player.load(sources(LONG_SCENES[i])));
+  player.load(sources(LONG_SCENES[0]));
 }
 
 // ---- Method stage cards (tabs controlling one figure panel) --------------

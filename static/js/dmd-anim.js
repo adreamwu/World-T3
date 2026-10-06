@@ -238,5 +238,5 @@
     for (const c of [LC, MC]) { c.setAttribute("stroke-width", 4 + 3 * fit); c.setAttribute("stroke-dashoffset", ph === 3 ? -tAbs * 160 : 0); }
   }
 
-  window.AnimKit.clock({ root, phases: PHASES, phaseMs: 5200, render });
+  window.AnimKit.clock({ root, phases: PHASES, phaseMs: 8000, render });
 })();

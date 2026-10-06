@@ -286,5 +286,5 @@
     inTiles.forEach((tl) => tl.setAttribute("fill", mixHex(C.tile, "#8fbad8", ph === 3 ? bump(p, .26, .42) : 0)));
   }
 
-  window.AnimKit.clock({ root, phases: PHASES, phaseMs: 5200, render });
+  window.AnimKit.clock({ root, phases: PHASES, phaseMs: 8000, render });
 })();
