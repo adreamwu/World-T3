@@ -28,7 +28,9 @@
 
   <link rel="stylesheet" href="static/css/style.css">
   <script defer src="static/js/main.js"></script>
+  <script defer src="static/js/anim-kit.js"></script>
   <script defer src="static/js/ttt-anim.js"></script>
+  <script defer src="static/js/dmd-anim.js"></script>
 </head>
 <body>
 
@@ -261,53 +263,77 @@
           Stage 2 and supplies the reference score for Stage 3.
         </figcaption>
       </figure>
-      <figure class="stage-panel ttt-panel" role="tabpanel" id="stage-panel-2" aria-labelledby="stage-tab-2" hidden>
-        <div class="ttt-anim" id="ttt-anim">
-          <div class="ttt-scroll">
-            <svg class="ttt-svg" viewBox="0 0 2000 1067" role="img" aria-label="Animated version of the Stage 2 figure: a bounded context window and camera revisit, evicted blocks written into the fast-weight memory by recursive least squares, a pose-keyed read, and gated injection into the DiT block."></svg>
+      <figure class="stage-panel anim-panel" role="tabpanel" id="stage-panel-2" aria-labelledby="stage-tab-2" hidden>
+        <div class="anim" id="ttt-anim">
+          <div class="anim-scroll">
+            <svg class="anim-svg" viewBox="0 0 2000 1067" role="img" aria-label="Animated version of the Stage 2 figure: a bounded context window and camera revisit, evicted blocks written into the fast-weight memory by recursive least squares, a pose-keyed read, and gated injection into the DiT block."></svg>
           </div>
-          <div class="ttt-caption">
-            <span class="ttt-pill" id="ttt-pill" data-kind="gen">Generate</span>
-            <p class="ttt-text"><strong id="ttt-title"></strong><span id="ttt-desc"></span></p>
+          <div class="anim-caption">
+            <span class="anim-pill" data-kind="blue"></span>
+            <p class="anim-text"><strong class="anim-title"></strong><span class="anim-desc"></span></p>
           </div>
-          <div class="ttt-eq" id="ttt-eq"></div>
-          <div class="ttt-bar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          <div class="ttt-ctl">
-            <div class="ttt-steps" role="group" aria-label="Phase">
+          <div class="anim-eq"></div>
+          <div class="anim-bar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="anim-ctl">
+            <div class="anim-steps" role="group" aria-label="Phase">
               <button type="button" aria-pressed="true">1 · Context</button>
               <button type="button" aria-pressed="false">2 · Write</button>
               <button type="button" aria-pressed="false">3 · Read</button>
               <button type="button" aria-pressed="false">4 · Inject</button>
             </div>
-            <div class="ttt-btns">
-              <button type="button" id="ttt-play">Pause</button>
-              <button type="button" id="ttt-step">Step</button>
-              <button type="button" id="ttt-restart">Restart</button>
-              <select id="ttt-speed" aria-label="Playback speed">
+            <div class="anim-btns">
+              <button type="button" class="anim-play">Pause</button>
+              <button type="button" class="anim-step">Step</button>
+              <button type="button" class="anim-restart">Restart</button>
+              <select class="anim-speed" aria-label="Playback speed">
                 <option value="0.5">0.5×</option>
                 <option value="1" selected>1×</option>
                 <option value="2">2×</option>
               </select>
             </div>
           </div>
-          <p class="ttt-legend">
-            <span><i class="k-ctx"></i>bounded context</span>
-            <span><i class="k-mem"></i>write to memory</span>
-            <span><i class="k-cur"></i>read / target block</span>
+          <p class="anim-legend">
+            <span><i class="k-blue"></i>bounded context</span>
+            <span><i class="k-green"></i>write to memory</span>
+            <span><i class="k-orange"></i>read / target block</span>
           </p>
         </div>
-        <details class="paper-fig">
-          <summary>Show the paper figure</summary>
-          <img src="static/images/stage2_memory.webp" alt="Stage 2 architecture from the paper: bounded context window, RLS write and pose-keyed read of TTT memory, and gated memory injection into each DiT block." width="2400" height="1280" loading="lazy">
-        </details>
       </figure>
-      <figure class="stage-panel" role="tabpanel" id="stage-panel-3" aria-labelledby="stage-tab-3" hidden>
-        <img class="fig-s3" src="static/images/stage3_dmd.svg" alt="Stage 3: the few-step student's rollout is scored by a bidirectional teacher-critic pair and a memory-augmented teacher-critic pair; their DMD gradients are summed to update the student." width="900" height="400" loading="lazy">
-        <figcaption>
-          <strong>Stage 3: Dual-teacher few-step distillation.</strong> After consistency distillation to 4 steps, the student is
-          refined with distribution matching. Each teacher is paired with a critic trained on student samples; the memory-augmented
-          pair replays TTT memory over the student's own rollout, penalizing long-horizon drift.
-        </figcaption>
+      <figure class="stage-panel anim-panel" role="tabpanel" id="stage-panel-3" aria-labelledby="stage-tab-3" hidden>
+        <div class="anim" id="dmd-anim">
+          <div class="anim-scroll">
+            <svg class="anim-svg" viewBox="0 0 2000 1060" role="img" aria-label="Animated diagram of Stage 3: a four-step student rolls out video, a noised sample is scored by a bidirectional teacher-critic pair and a memory-augmented teacher-critic pair, and the two distribution-matching gradients are summed to update the student."></svg>
+          </div>
+          <div class="anim-caption">
+            <span class="anim-pill" data-kind="orange"></span>
+            <p class="anim-text"><strong class="anim-title"></strong><span class="anim-desc"></span></p>
+          </div>
+          <div class="anim-eq"></div>
+          <div class="anim-bar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="anim-ctl">
+            <div class="anim-steps" role="group" aria-label="Phase">
+              <button type="button" aria-pressed="true">1 · Rollout</button>
+              <button type="button" aria-pressed="false">2 · Score</button>
+              <button type="button" aria-pressed="false">3 · Match</button>
+              <button type="button" aria-pressed="false">4 · Update</button>
+            </div>
+            <div class="anim-btns">
+              <button type="button" class="anim-play">Pause</button>
+              <button type="button" class="anim-step">Step</button>
+              <button type="button" class="anim-restart">Restart</button>
+              <select class="anim-speed" aria-label="Playback speed">
+                <option value="0.5">0.5×</option>
+                <option value="1" selected>1×</option>
+                <option value="2">2×</option>
+              </select>
+            </div>
+          </div>
+          <p class="anim-legend">
+            <span><i class="k-orange"></i>few-step student</span>
+            <span><i class="k-blue"></i>bidirectional teacher / critic</span>
+            <span><i class="k-green"></i>memory-augmented teacher / critic</span>
+          </p>
+        </div>
       </figure>
     </div>
 
@@ -322,45 +348,53 @@
       120 out-and-back clips (10&nbsp;s, 1280×704, 16&nbsp;FPS) from the test split. Revisit metrics pair outbound and
       return frames at the same requested pose, with all gaps beyond our 21-latent-frame context window.
     </p>
+  </div>
 
+  <div class="container wide">
     <div class="results-row">
-      <figure class="figure plot">
+      <figure class="card plot-card">
+        <h3 class="card-title">Speed vs. quality</h3>
         <img src="static/images/speed_quality.webp" alt="Speed versus revisit PSNR. World-T3 is the only method to the left of the real-time line, and has the highest PSNR." width="1400" height="1181" loading="lazy">
-        <figcaption>Speed vs. quality on one B200. Points left of the dashed line are real-time.</figcaption>
+        <figcaption>One B200 GPU. Points left of the dashed line run in real time.</figcaption>
       </figure>
 
-      <div class="table-wrap">
-        <table class="results">
-          <thead>
-            <tr>
-              <th rowspan="2">Method</th>
-              <th rowspan="2">Steps</th>
-              <th colspan="2">Revisit ↑</th>
-              <th colspan="2">Camera ↓</th>
-              <th rowspan="2">FPS ↑</th>
-            </tr>
-            <tr>
-              <th>Sem. Sim.</th><th>PSNR</th>
-              <th>RotErr°</th><th>CamMC</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Matrix-Game 3.0</td><td>3</td><td>0.8225</td><td>11.15</td><td>11.179</td><td>0.2958</td><td>7.1</td></tr>
-            <tr><td>HY-World 1.5</td><td>4</td><td>0.8563</td><td>10.84</td><td>12.864</td><td>0.3484</td><td>4.5</td></tr>
-            <tr><td>DreamX-AR</td><td>4</td><td>0.8768</td><td>11.66</td><td>8.011</td><td>0.2276</td><td>11.0</td></tr>
-            <tr><td>LingBot-Fast</td><td>4</td><td>0.8580</td><td>10.59</td><td>9.817</td><td>0.2639</td><td>1.6</td></tr>
-            <tr><td>SANA-WM</td><td>4</td><td>0.9200</td><td>13.52</td><td>3.344</td><td>0.1200</td><td class="second">14.2</td></tr>
-            <tr class="ours-row sep"><td>Ours (Stage 2)</td><td>50</td><td class="second">0.9524</td><td class="second">16.69</td><td class="second">1.308</td><td class="second">0.0381</td><td>4.4</td></tr>
-            <tr class="ours-row"><td>Ours (Stage 3)</td><td>4</td><td class="best">0.9610</td><td class="best">18.31</td><td class="best">1.075</td><td class="best">0.0318</td><td class="best">20.6</td></tr>
-          </tbody>
-        </table>
+      <div class="card table-card">
+        <h3 class="card-title">Comparison on the revisit set</h3>
+        <div class="table-wrap">
+          <table class="results">
+            <thead>
+              <tr>
+                <th rowspan="2">Method</th>
+                <th rowspan="2">Steps</th>
+                <th colspan="2">Revisit ↑</th>
+                <th colspan="2">Camera ↓</th>
+                <th rowspan="2">FPS ↑</th>
+              </tr>
+              <tr>
+                <th>Sem. Sim.</th><th>PSNR</th>
+                <th>RotErr°</th><th>CamMC</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Matrix-Game 3.0</td><td>3</td><td>0.8225</td><td>11.15</td><td>11.179</td><td>0.2958</td><td>7.1</td></tr>
+              <tr><td>HY-World 1.5</td><td>4</td><td>0.8563</td><td>10.84</td><td>12.864</td><td>0.3484</td><td>4.5</td></tr>
+              <tr><td>DreamX-AR</td><td>4</td><td>0.8768</td><td>11.66</td><td>8.011</td><td>0.2276</td><td>11.0</td></tr>
+              <tr><td>LingBot-Fast</td><td>4</td><td>0.8580</td><td>10.59</td><td>9.817</td><td>0.2639</td><td>1.6</td></tr>
+              <tr><td>SANA-WM</td><td>4</td><td>0.9200</td><td>13.52</td><td>3.344</td><td>0.1200</td><td class="second">14.2</td></tr>
+              <tr class="ours-row sep"><td>Ours (Stage 2)</td><td>50</td><td class="second">0.9524</td><td class="second">16.69</td><td class="second">1.308</td><td class="second">0.0381</td><td>4.4</td></tr>
+              <tr class="ours-row"><td>Ours (Stage 3)</td><td>4</td><td class="best">0.9610</td><td class="best">18.31</td><td class="best">1.075</td><td class="best">0.0318</td><td class="best">20.6</td></tr>
+            </tbody>
+          </table>
+        </div>
         <p class="caption left">
           <span class="best">Bold</span>: best, <span class="second">underline</span>: second best.
           Full table with VBench, RPE and peak memory in the paper.
         </p>
       </div>
     </div>
+  </div>
 
+  <div class="container">
     <h3 class="subhead">Qualitative Comparison</h3>
     <figure class="figure">
       <img src="static/images/revisit_indoor.webp" alt="Indoor out-and-back comparison across five methods." width="2400" height="1176" loading="lazy">

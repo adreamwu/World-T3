@@ -4,10 +4,9 @@
 (() => {
   "use strict";
   const root = document.getElementById("ttt-anim");
-  if (!root) return;
-  const svg = root.querySelector(".ttt-svg");
-  const $ = (sel) => root.querySelector(sel);
-  const NS = "http://www.w3.org/2000/svg";
+  if (!root || !window.AnimKit) return;
+  const { clamp, seg, ease, lerp, bump, mixHex, route } = window.AnimKit;
+  const svg = root.querySelector(".anim-svg");
 
   // Colours sampled from the paper figure.
   const C = {
@@ -18,85 +17,8 @@
     dit: "#869197", ditBox: "#b8c0c5", ditF: "#fafbfb",
     purple: "#9b96bd", purpleF: "#ebe8f0",
   };
-  const FONT = 'Inter, "Helvetica Neue", Arial, sans-serif';
-
-  // ---------- helpers ----------
-  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
-  const seg = (p, a, b) => clamp((p - a) / (b - a));
-  const ease = (x) => x * x * (3 - 2 * x);
-  const lerp = (a, b, t) => a + (b - a) * t;
-  const bump = (p, a, b) => Math.sin(Math.PI * seg(p, a, b)); // 0 -> 1 -> 0 inside [a, b]
-  const hexRGB = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
-  const mixHex = (a, b, t) => {
-    const A = hexRGB(a), B = hexRGB(b);
-    return "rgb(" + A.map((v, i) => Math.round(lerp(v, B[i], t))).join(",") + ")";
-  };
-  let scene;
-  function el(tag, attrs, parent) {
-    const e = document.createElementNS(NS, tag);
-    for (const k in attrs) e.setAttribute(k, attrs[k]);
-    if (parent !== null) (parent || scene).appendChild(e);
-    return e;
-  }
-  const group = (parent) => el("g", {}, parent);
-
-  // Inline "math" in the figure's sans style. parts: [text, kind]; kind "" normal, "s" italic subscript,
-  // "S" upright subscript, "p" superscript, "i" italic.
-  function math(parent, x, y, parts, o = {}) {
-    const fs = o.size || 36;
-    const t = el("text", { x, y, "text-anchor": o.anchor || "middle", fill: o.fill || C.ink, "font-size": fs, "font-weight": o.weight || 600, "font-family": FONT }, parent);
-    let shift = 0;
-    for (const [str, kind = ""] of parts) {
-      const ts = document.createElementNS(NS, "tspan");
-      const target = kind === "s" || kind === "S" ? 0.26 : kind === "p" ? -0.36 : 0;
-      ts.setAttribute("dy", ((target - shift) * fs).toFixed(1));
-      shift = target;
-      if (kind === "s" || kind === "S" || kind === "p") { ts.setAttribute("font-size", fs * 0.68); ts.setAttribute("font-weight", 500); }
-      if (kind === "s" || kind === "i") ts.setAttribute("font-style", "italic");
-      ts.textContent = str;
-      t.appendChild(ts);
-    }
-    return t;
-  }
-  function label(parent, x, y, str, o = {}) {
-    const t = el("text", { x, y, "text-anchor": o.anchor || "middle", fill: o.fill || C.ink, "font-size": o.size || 31, "font-weight": o.weight || 400, "font-family": FONT, "font-style": o.italic ? "italic" : "normal" }, parent);
-    t.textContent = str;
-    return t;
-  }
-  function route(points) { // smooth polyline (Catmull-Rom) with arc-length lookup
-    const n = points.length, out = [];
-    if (n < 3) out.push(...points);
-    else for (let i = 0; i < n - 1; i++) {
-      const p0 = points[Math.max(0, i - 1)], p1 = points[i], p2 = points[i + 1], p3 = points[Math.min(n - 1, i + 2)];
-      for (let k = 0; k < 14; k++) {
-        const t = k / 14, t2 = t * t, t3 = t2 * t;
-        out.push([0, 1].map((d) => 0.5 * ((2 * p1[d]) + (-p0[d] + p2[d]) * t + (2 * p0[d] - 5 * p1[d] + 4 * p2[d] - p3[d]) * t2 + (-p0[d] + 3 * p1[d] - 3 * p2[d] + p3[d]) * t3)));
-      }
-    }
-    out.push(points[n - 1]);
-    const cum = [0];
-    for (let i = 1; i < out.length; i++) cum.push(cum[i - 1] + Math.hypot(out[i][0] - out[i - 1][0], out[i][1] - out[i - 1][1]));
-    const len = cum[cum.length - 1];
-    return {
-      at(u) {
-        const d = clamp(u) * len; let i = 1;
-        while (i < cum.length - 1 && cum[i] < d) i++;
-        const f = (d - cum[i - 1]) / ((cum[i] - cum[i - 1]) || 1);
-        return [lerp(out[i - 1][0], out[i][0], f), lerp(out[i - 1][1], out[i][1], f)];
-      },
-    };
-  }
-
-  // ---------- scene ----------
-  const defs = el("defs", {}, svg);
-  const ARROW = {}, ARROW_COL = { green: C.green, orange: C.orange, ink: C.ink, purple: C.purple };
-  for (const k in ARROW_COL) {
-    defs.innerHTML += `<marker id="ttt-ah-${k}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${ARROW_COL[k]}"/></marker>`;
-    ARROW[k] = `url(#ttt-ah-${k})`;
-  }
-  scene = el("g", {}, svg);
-  const arrow = (parent, d, col, w = 4) => el("path", { d, fill: "none", stroke: ARROW_COL[col], "stroke-width": w, "stroke-linecap": "round", "marker-end": ARROW[col] }, parent);
-  const box = (parent, x, y, w, h, rx, fill, stroke, sw = 4, dash) => el("rect", { x, y, width: w, height: h, rx, fill, stroke, "stroke-width": sw, ...(dash ? { "stroke-dasharray": dash } : {}) }, parent);
+  const S = window.AnimKit.scene(svg, { prefix: "ttt", ink: C.ink, arrows: { green: C.green, orange: C.orange, ink: C.ink, purple: C.purple } });
+  const { root: scene, el, group, arrow, box, label, math } = S;
 
   // static: panel titles and dividers
   const st = group();
@@ -159,7 +81,7 @@
   }
   const place = (g, [x, y], rot) => g.setAttribute("transform", `translate(${x} ${y}) rotate(${rot})`);
   for (const [deg, rot] of [[282, 41], [330, -43], [42, -50], [109, 22]]) place(camera(gCam, "#fff", "#8e99a5"), onEllipse(deg), rot);
-  const ejCam = camera(gCam, C.greenF, C.green); place(ejCam, [1487, 146], 54);
+  place(camera(gCam, C.greenF, C.green), [1487, 146], 54);
   math(gCam, 1455, 130, [["e", "i"], ["j", "s"]], { fill: C.green, weight: 500, size: 38 });
   const bCam = camera(gCam, C.orangeF, C.orange);
   const ring = el("circle", { cx: 1500, cy: 160, r: 58, fill: "none", stroke: C.orange, "stroke-width": 4, "stroke-dasharray": "9 8", opacity: 0 }, gCam);
@@ -210,9 +132,9 @@
   box(gMem, 1178, 654, 126, 80, 16, "#fff", C.greenIn, 3.5);
   const flashW = el("rect", { x: 1014, y: 654, width: 126, height: 80, rx: 16, fill: C.green, opacity: 0 }, gMem);
   const flashP = el("rect", { x: 1178, y: 654, width: 126, height: 80, rx: 16, fill: C.green, opacity: 0 }, gMem);
-  el("text", { x: 1054, y: 716, "font-size": 44, "font-weight": 600, fill: eqCol, "font-family": FONT, "text-anchor": "middle" }, gMem).textContent = "W";
-  el("text", { x: 1081, y: 726, "font-size": 29, "font-weight": 500, fill: eqCol, "font-family": FONT }, gMem).textContent = "2";
-  el("text", { x: 1085, y: 690, "font-size": 27, "font-style": "italic", fill: eqCol, "font-family": FONT }, gMem).textContent = "(Jb)";
+  el("text", { x: 1054, y: 716, "font-size": 44, "font-weight": 600, fill: eqCol, "font-family": "inherit", "text-anchor": "middle" }, gMem).textContent = "W";
+  el("text", { x: 1081, y: 726, "font-size": 29, "font-weight": 500, fill: eqCol, "font-family": "inherit" }, gMem).textContent = "2";
+  el("text", { x: 1085, y: 690, "font-size": 27, "font-style": "italic", fill: eqCol, "font-family": "inherit" }, gMem).textContent = "(Jb)";
   math(gMem, 1241, 712, [["P"], ["Jb", "s"]], { fill: eqCol, size: 44 });
 
   // ---- (b) READ ----
@@ -259,55 +181,31 @@
   arrow(gOA, "M1170 954H1375V721H1426", "orange", 4);
 
   // ---------- moving chips ----------
-  const chipG = group();
-  const mkChip = (col, w = 22) => {
-    const g = group(chipG);
-    el("rect", { x: -w / 2, y: -w / 2, width: w, height: w, rx: 5, fill: col, stroke: "#fff", "stroke-width": 2.5 }, g);
-    g.setAttribute("opacity", 0);
-    return g;
-  };
-  const R = {
-    pi: route([[339, 268], [339, 340], [280, 420], [160, 500], [110, 550], [110, 577], [225, 577], [330, 577], [452, 577]]),
-    h: route([[339, 268], [339, 340], [280, 420], [160, 500], [110, 560], [110, 719], [225, 719], [330, 719], [452, 719]]),
-    upd: route([[886, 636], [940, 636], [1000, 636]]),
-    read: route([[120, 948], [225, 948], [330, 948], [450, 948], [530, 948]]),
-    mem: route([[1078, 740], [1078, 866]]),
-    inj: route([[1172, 954], [1375, 954], [1375, 721], [1426, 721], [1520, 721]]),
-    txt: route([[1932, 832], [1866, 832]]),
-  };
-  const chip = {
-    pi: [mkChip("#8aa593"), mkChip("#8aa593", 18)], h: [mkChip("#8aa593"), mkChip("#8aa593", 18)],
-    upd: [mkChip(C.green), mkChip(C.green, 18)], read: [mkChip(C.orange), mkChip(C.orange, 18)],
-    mem: [mkChip(C.green), mkChip(C.green, 18)], inj: [mkChip(C.orange), mkChip(C.orange, 18), mkChip(C.orange, 14)], txt: [mkChip(C.purple, 18)],
-  };
-  // write chips turn into the key (blue) / value (green) once they leave their encoder
-  const afterEncoder = { pi: C.blue, h: C.green };
-  function flow(name, u, recolorAt) {
-    chip[name].forEach((g, k) => {
-      const t = u * 1.35 - k * 0.15;
-      if (u <= 0 || t <= 0 || t >= 1) { g.setAttribute("opacity", 0); return; }
-      const [x, y] = R[name].at(ease(t));
-      g.setAttribute("transform", `translate(${x} ${y})`);
-      g.setAttribute("opacity", Math.min(1, t * 9, (1 - t) * 9));
-      if (recolorAt) g.firstChild.setAttribute("fill", t > recolorAt ? afterEncoder[name] : "#8aa593");
-    });
-  }
-  const latent = group(chipG);
+  const flow = window.AnimKit.chips(scene, el, group, {
+    pi: { route: route([[339, 268], [339, 340], [280, 420], [160, 500], [110, 550], [110, 577], [225, 577], [330, 577], [452, 577]]), chips: ["#8aa593", "#8aa593"] },
+    h: { route: route([[339, 268], [339, 340], [280, 420], [160, 500], [110, 560], [110, 719], [225, 719], [330, 719], [452, 719]]), chips: ["#8aa593", "#8aa593"] },
+    upd: { route: route([[886, 636], [940, 636], [1000, 636]]), chips: [C.green, C.green] },
+    read: { route: route([[120, 948], [225, 948], [330, 948], [450, 948], [530, 948]]), chips: [C.orange, C.orange] },
+    mem: { route: route([[1078, 740], [1078, 866]]), chips: [C.green, C.green] },
+    inj: { route: route([[1172, 954], [1375, 954], [1375, 721], [1426, 721], [1520, 721]]), chips: [C.orange, C.orange, C.orange] },
+    txt: { route: route([[1932, 832], [1866, 832]]), chips: [C.purple] },
+  });
+  const latent = group(scene);
   for (let i = 0; i < 3; i++) el("rect", { x: -63 + i * 44, y: -15, width: 38, height: 30, rx: 3, fill: C.tile, stroke: "#6f9cbf", "stroke-width": 2.5 }, latent);
   latent.setAttribute("opacity", 0);
 
   // ---------- phase script ----------
   const PHASES = [
-    { kind: "gen", pill: "Context", title: "A bounded context and a block waiting to be generated.",
+    { kind: "blue", pill: "Context", title: "A bounded context and a block waiting to be generated.",
       desc: "The sink and the K most recent clean blocks condition the noisy target. Anything older is evicted once it leaves the window.",
       tex: String.raw`p_\theta(\mathbf{x}_b\mid C_b,\ \mathcal{M}_b,\ \mathcal{T}_{1:b},\ c_I,\ c)` },
-    { kind: "write", pill: "Write", title: "Evict, then consolidate by recursive least squares.",
+    { kind: "green", pill: "Write", title: "Evict, then consolidate by recursive least squares.",
       desc: "The evicted block's raymap and clean hidden state become a key–value pair. The whitening step folds in only what the memory does not already hold.",
       tex: String.raw`\mathbf{g}=\tfrac{\mathbf{P}\boldsymbol{\phi}}{w^{-1}+\boldsymbol{\phi}^{\top}\mathbf{P}\boldsymbol{\phi}},\quad \mathbf{W}_2\leftarrow\mathbf{W}_2+(\mathbf{v}-\mathbf{W}_2\boldsymbol{\phi})\,\mathbf{g}^{\top},\quad \mathbf{P}\leftarrow\mathbf{P}-\mathbf{g}\boldsymbol{\phi}^{\top}\mathbf{P}` },
-    { kind: "read", pill: "Read", title: "Revisit the viewpoint, read by pose alone.",
+    { kind: "orange", pill: "Read", title: "Revisit the viewpoint, read by pose alone.",
       desc: "The camera returns to the pose of an evicted block. The pose key alone queries the fast weights, and the stored scene feature comes back.",
       tex: String.raw`\mathbf{m}_b=\mathbf{W}_2\,\mathrm{gelu}(\mathbf{W}_1\mathbf{k}_b)` },
-    { kind: "inject", pill: "Inject", title: "Inject through a gated residual.",
+    { kind: "orange", pill: "Inject", title: "Inject through a gated residual.",
       desc: "The retrieved feature enters each DiT block, so the target block regenerates what was seen at this viewpoint instead of resynthesizing it.",
       tex: String.raw`\mathbf{h}_b\leftarrow\mathbf{h}_b+\boldsymbol{\gamma}\odot\mathbf{W}_{\text{out}}\,\mathbf{m}_b` },
   ];
@@ -339,8 +237,8 @@
     noise.forEach((n, i) => n.e.setAttribute("opacity", level * n.k * (.55 + .45 * Math.sin(tAbs * 5 + i * 1.7))));
 
     // (b) write
-    flow("pi", ph === 1 ? seg(p, .1, .5) : 0, .58);
-    flow("h", ph === 1 ? seg(p, .13, .53) : 0, .58);
+    flow("pi", ph === 1 ? seg(p, .1, .5) : 0, [.58, C.blue, "#8aa593"]);
+    flow("h", ph === 1 ? seg(p, .13, .53) : 0, [.58, C.green, "#8aa593"]);
     phiKw.setAttribute("stroke-width", 4 + 5 * (ph === 1 ? bump(p, .3, .52) : 0));
     phiVw.setAttribute("stroke-width", 4 + 5 * (ph === 1 ? bump(p, .32, .54) : 0));
     highlight(eqPlate[0], ph === 1 ? bump(p, .48, .66) : 0);
@@ -388,62 +286,5 @@
     inTiles.forEach((tl) => tl.setAttribute("fill", mixHex(C.tile, "#8fbad8", ph === 3 ? bump(p, .26, .42) : 0)));
   }
 
-  // ---------- captions, controls, clock ----------
-  const pill = $("#ttt-pill"), title = $("#ttt-title"), desc = $("#ttt-desc"), eq = $("#ttt-eq");
-  const steps = [...root.querySelectorAll(".ttt-steps button")];
-  const bars = [...root.querySelectorAll(".ttt-bar i")];
-  const playBtn = $("#ttt-play"), speedSel = $("#ttt-speed");
-  let shownPhase = -1;
-  function setCaption(ph) {
-    if (ph === shownPhase) return;
-    shownPhase = ph;
-    const P = PHASES[ph];
-    pill.textContent = P.pill; pill.dataset.kind = P.kind;
-    title.textContent = P.title; desc.textContent = " " + P.desc;
-    steps.forEach((b, k) => b.setAttribute("aria-pressed", String(k === ph)));
-    renderEq();
-  }
-  function renderEq() {
-    const P = PHASES[Math.max(0, shownPhase)];
-    if (window.katex) window.katex.render(P.tex, eq, { throwOnError: false, displayMode: false, output: "html" });
-    else eq.textContent = "";
-  }
-  function draw() {
-    render(t);
-    setCaption(Math.floor(t) % 4);
-    bars.forEach((b, k) => { b.style.backgroundSize = (t >= k + 1 ? 100 : t >= k ? (t - k) * 100 : 0) + "% 100%"; });
-  }
-
-  const PHASE_MS = 5200;
-  let t = 0.1, playing = true, inView = false, last = 0, raf = 0, speed = 1;
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { playing = false; t = 2.9; }
-  const running = () => playing && inView && !document.hidden;
-  function frame(ts) {
-    if (!running()) { raf = 0; return; }
-    if (!last) last = ts;
-    const dt = clamp(ts - last, 0, 64); last = ts; // the frame timestamp can precede the click that restarted us
-    t = (t + dt / (PHASE_MS / speed)) % 4;
-    draw();
-    raf = requestAnimationFrame(frame);
-  }
-  function kick() {
-    playBtn.textContent = playing ? "Pause" : "Play";
-    playBtn.setAttribute("aria-pressed", String(!playing));
-    if (!raf && running()) { last = 0; raf = requestAnimationFrame(frame); }
-  }
-  function jump(k) { playing = false; t = k + .9; draw(); kick(); }
-
-  playBtn.addEventListener("click", () => { playing = !playing; kick(); });
-  $("#ttt-step").addEventListener("click", () => jump((Math.floor(t) + 1) % 4));
-  $("#ttt-restart").addEventListener("click", () => { t = 0; playing = true; draw(); kick(); });
-  steps.forEach((b, k) => b.addEventListener("click", () => jump(k)));
-  speedSel.addEventListener("change", () => { speed = Number(speedSel.value); });
-
-  // only run while visible (the panel is hidden until its stage card is selected)
-  new IntersectionObserver((entries) => { inView = entries.some((e) => e.isIntersecting); kick(); }, { threshold: .25 }).observe(root);
-  document.addEventListener("visibilitychange", kick);
-  window.addEventListener("load", renderEq);
-
-  draw();
-  root.__setTime = (v) => { playing = false; t = v; draw(); kick(); }; // lets tests pin a frame
+  window.AnimKit.clock({ root, phases: PHASES, phaseMs: 5200, render });
 })();
