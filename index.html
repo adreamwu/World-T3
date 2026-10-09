@@ -31,6 +31,10 @@
   <script defer src="static/js/anim-kit.js"></script>
   <script defer src="static/js/ttt-anim.js"></script>
   <script defer src="static/js/dmd-anim.js"></script>
+  <link rel="stylesheet" href="static/css/revisit-cmp.css">
+  <script defer src="static/js/revisit-cmp.js"></script>
+  <link rel="stylesheet" href="static/css/gallery.css">
+  <script defer src="static/js/gallery.js"></script>
 </head>
 <body>
 
@@ -43,6 +47,7 @@
       <a href="#long">Longer Generation</a>
       <a href="#method">Method</a>
       <a href="#results">Results</a>
+      <a href="#gallery">More Results</a>
       <a href="#bibtex">BibTeX</a>
     </div>
   </div>
@@ -158,7 +163,7 @@
   </div>
 </section>
 
-<!-- ============================== REVISIT VIDEOS (10 s, 6 methods) ============================== -->
+<!-- ============================== REVISIT VIDEOS (10 s, explorable 3 x 3 with camera path) ============================== -->
 <section class="section alt" id="revisit">
   <div class="container wide">
     <h2>Out-and-Back Revisits</h2>
@@ -168,31 +173,42 @@
       first frame, text prompt and camera trajectory.
     </p>
 
-    <div class="tabs" role="tablist" data-tabs="revisit">
+    <div class="tabs" role="tablist" data-tabs="revisit-cmp">
       <button role="tab" class="tab active" data-index="0">Living Room</button>
       <button role="tab" class="tab" data-index="1">Dining Room</button>
       <button role="tab" class="tab" data-index="2">Garden Path</button>
       <button role="tab" class="tab" data-index="3">Foyer</button>
     </div>
 
-    <div class="video-frame">
-      <video id="revisit-video" class="video" muted playsinline preload="metadata"
-             poster="static/videos/revisit/case1.jpg" src="static/videos/revisit/case1.mp4"></video>
+    <div class="rvc" id="rvc">
+      <div class="rvc-grid"></div>
     </div>
 
-    <div class="sync-controls" id="revisit-controls">
+    <div class="sync-controls" id="rvc-controls">
       <button class="ctrl-btn" data-action="toggle" aria-label="Play / pause">
         <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>
         <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
       </button>
-      <input type="range" class="scrubber" min="0" max="1000" value="0" step="1" aria-label="Seek">
-      <span class="time mono">0:00 / 0:10</span>
+      <div class="rvc-scrubwrap">
+        <input type="range" class="scrubber" min="0" max="1000" value="0" step="1" aria-label="Seek">
+        <div class="rvc-legs" aria-hidden="true"><span>going out</span><span>coming back</span></div>
+      </div>
+      <span class="time mono">0.0 s</span>
+      <button class="rvc-switch" data-action="compare" aria-pressed="false"
+              title="Show, next to every clip, what that model generated the other time the camera stood at this exact spot">
+        <span class="knob"></span>Compare with the same spot <kbd>C</kbd>
+      </button>
       <select class="speed" aria-label="Playback speed">
+        <option value="0.25">0.25×</option>
         <option value="0.5">0.5×</option>
         <option value="1" selected>1×</option>
-        <option value="2">2×</option>
       </select>
     </div>
+    <div class="rvc-below">
+      <div class="rvc-chapters" id="rvc-chapters"><span>Jump to</span></div>
+      <div class="rvc-hint"><kbd>Space</kbd> play / pause &nbsp; <kbd>&larr;</kbd><kbd>&rarr;</kbd> step a frame &nbsp; <kbd>C</kbd> compare</div>
+    </div>
+    <details class="rvc-prompt"><summary>Text prompt for this scene</summary><p id="rvc-prompt"></p></details>
   </div>
 </section>
 
@@ -432,6 +448,16 @@
         columns compare the initial and return views.
       </figcaption>
     </figure>
+  </div>
+</section>
+
+<!-- ============================== MORE RESULTS (10 s, 5 x 3, ours) ============================== -->
+<section class="section" id="gallery">
+  <div class="container wide">
+    <h2>More Results</h2>
+    <div class="gal-grid" id="gal-grid"></div>
+    <p class="gal-hint">Keys on each clip show the camera motion its trajectory implies. Hover a clip for its camera path; click to open it large
+      (<kbd>&larr;</kbd> <kbd>&rarr;</kbd> to step through, <kbd>Esc</kbd> to close).</p>
   </div>
 </section>
 
