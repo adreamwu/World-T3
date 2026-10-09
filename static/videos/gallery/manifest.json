@@ -1,0 +1,107 @@
+[
+ {
+  "id": "g01",
+  "label": "Alpine valley chalets",
+  "domain": "SpatialVID",
+  "caption": "A vast alpine valley features rolling green meadows dotted with traditional wooden chalets and small barns. A winding gravel path cuts through the grassy foreground, leading toward the scattered structures. In the background, steep, forested mountains rise dramatically, their rocky peaks capped with snow and glaciers. The sky is bright blue with scattered white clouds, casting soft shadows across the landscape. The scene is bathed in natural sunlight, highlighting the textures of the grass, wood, and rock.",
+  "stem": "03b64566-00d5-5d0e-a10a-9c63abd6b007_w000"
+ },
+ {
+  "id": "g02",
+  "label": "Garden greenhouse",
+  "domain": "DL3DV",
+  "caption": "A large glass greenhouse with a black metal frame and a sloped roof sits adjacent to a red brick building with a tiled roof. The greenhouse is surrounded by a well-maintained garden featuring various plants, shrubs, and small trees. A concrete path leads to the greenhouse entrance, flanked by mulched garden beds. The sky is clear and blue, indicating a sunny day. The scene is tranquil, with no visible movement or activity.",
+  "stem": "190ac94f2aab7672e841ef79b3c9bdd67bdb77f5ab793275a9a3878f421e7b95_w000"
+ },
+ {
+  "id": "g03",
+  "label": "Round banquet table",
+  "domain": "DL3DV",
+  "caption": "A formal dining room features a large round table covered in a white tablecloth, centered with a glass lazy Susan. The table is set with white plates, bowls, wine glasses, and red chopsticks. Surrounding the table are twelve high-backed wooden chairs upholstered in red and gold patterned fabric. The room has white walls with decorative molding and beige floral wallpaper. The floor consists of large white tiles with a dark marble border. A vase of flowers sits on a side table in the background.",
+  "stem": "87ecce48dfcdb5cf001246898b199f37133fb18c12554cf5d4271dd2fb9ca1d2_w000"
+ },
+ {
+  "id": "g04",
+  "label": "Topiary rhinoceros",
+  "domain": "DL3DV",
+  "caption": "A large topiary sculpture of a rhinoceros, covered in green foliage and decorated with red spherical ornaments, stands on a rectangular planter with a blue interior. The sculpture is situated in a landscaped garden featuring manicured bushes with yellow and dark purple leaves, stone benches, and a wooden pergola covered in vines. In the background, tall trees and a clear blue sky are visible, with sunlight casting distinct shadows on the paved walkway and surrounding vegetation.",
+  "stem": "1a9e944fd37d380fff7b50111fa0aeb0efd1b4af9477b21b0140eb1d9ae8e6d8_w000"
+ },
+ {
+  "id": "g05",
+  "label": "Library reading nook",
+  "domain": "DL3DV",
+  "caption": "A quiet library reading area features light wood bookshelves lining the walls, filled with books. In the center, four grey upholstered armchairs with wooden armrests are arranged around a small round wooden table. The floor is a smooth, light grey surface. Large windows with dark frames are visible in the background, letting in natural light. The room is well-lit with overhead lights, creating a calm and organized atmosphere.",
+  "stem": "0bf7b4f02c70d8d2a71065c5f0de346c8d7210af7448870da68edb3d58071bfb_w000"
+ },
+ {
+  "id": "g06",
+  "label": "Sunlit dining area",
+  "domain": "RealEstate10K",
+  "caption": "A bright, open-concept interior features a glass dining table in the foreground, adorned with a white pitcher of purple flowers and a bowl of oranges. Surrounding the table are chairs with deep purple velvet cushions. To the left, a modern kitchen displays white cabinetry, stainless steel appliances, and dark countertops. A half-wall separates the dining area from a living room in the background, which contains a beige sectional sofa with blue and grey pillows. A staircase with wooden railings ascends in the center, while track lighting illuminates the space.",
+  "stem": "1c71ba8b64ef1410_w000"
+ },
+ {
+  "id": "g07",
+  "label": "Warehouse aisles",
+  "domain": "DL3DV",
+  "caption": "A vast indoor warehouse features towering industrial metal shelving units densely packed with cardboard boxes of various sizes. The floor is smooth, polished concrete reflecting the bright overhead fluorescent strip lighting. In the foreground, stacks of flat-packed furniture boxes are arranged on pallets alongside white display counters. A blue directional sign hangs from the high ceiling trusses. The environment is static, organized, and illuminated by artificial light, creating a functional retail storage atmosphere.",
+  "stem": "25c94c476a2f37c9d689813523977b1e268c59452d2497dea3330ec5f4dcc7fd_w001"
+ },
+ {
+  "id": "g08",
+  "label": "City plaza planters",
+  "domain": "Sekai",
+  "caption": "A paved urban plaza features large rectangular planters containing green shrubs and yellow flowers, alongside wooden benches and black waste bins. The area is bordered by a low stone balustrade. In the background, multi-story red brick buildings with white horizontal banding and white sash windows rise under an overcast sky. A young tree with sparse brown leaves stands near the center, while a modern white structure is visible in the distance between the brick facades.",
+  "stem": "-p9H-VJVuHM_0043350_0045150_w009"
+ },
+ {
+  "id": "g09",
+  "label": "Marble monument",
+  "domain": "DL3DV",
+  "caption": "A massive white marble monument stands under a bright blue sky with scattered clouds. The structure features a grand staircase leading to a central bronze door, flanked by tall columns and inscribed with text. A stone lion statue rests on a pedestal to the left, while golden-topped pillars mark the entrance. The building's facade is composed of light-colored stone blocks, and brick residential buildings are visible in the background to the right.",
+  "stem": "f87152e94e4135f6a10bf3851c5438a718ca6bd2a41f651f2a0a9be1fb7aa967_w000"
+ },
+ {
+  "id": "g10",
+  "label": "Valley road",
+  "domain": "SpatialVID",
+  "caption": "A cracked asphalt road winds through a lush green valley flanked by steep, forested hillsides. On the right, a beige house with a brown tiled roof and red shutters sits adjacent to a grassy slope. In the distance, a large body of water reflects the bright blue sky, bordered by snow-capped mountains partially obscured by low-hanging clouds. The scene is illuminated by bright sunlight, casting distinct shadows on the grass and road surface, while dense trees cover the rising terrain on the left.",
+  "stem": "34925e91-bf5b-5a62-a10b-48d19f42bd17_w000"
+ },
+ {
+  "id": "g11",
+  "label": "Red-rock canyon path",
+  "domain": "SpatialVID",
+  "caption": "A paved pathway curves gently through a lush, green valley floor, flanked by dense shrubs and trees. Towering red rock cliffs rise steeply on both sides, their rugged surfaces contrasting with the vibrant vegetation below. The sky above is a clear, deep blue, indicating bright daylight conditions. A wooden fence with stone pillars lines the left side of the path near the foreground. The scene is static, with no visible movement in the foliage or water, suggesting a calm, still atmosphere in a natural canyon environment.",
+  "stem": "a6aeecba-cd82-5d19-b69d-da6f4a775c9c_w000"
+ },
+ {
+  "id": "g12",
+  "label": "Mountain highway",
+  "domain": "SpatialVID",
+  "caption": "A paved two-lane asphalt road with a solid yellow center line curves gently to the left through a high-altitude landscape. On the left, a steep, reddish-brown rocky cliff face rises sharply, covered in patches of green grass and low vegetation. To the right, a wide, dark river flows parallel to the road, bordered by a metal guardrail and a grassy bank. Rolling green hills with exposed earth patches stretch into the distance under a bright blue sky with scattered white clouds. Utility poles line the roadside, and a yellow triangular warning sign stands near the curve.",
+  "stem": "a5939a78-d80d-5fb1-bd5c-e986a8fa478c_w000"
+ },
+ {
+  "id": "g13",
+  "label": "Charcoal house entrance",
+  "domain": "SpatialVID",
+  "caption": "A modern residential entrance features dark charcoal gray horizontal siding and matching trim. A covered porch is supported by substantial square columns, with the house number '222' mounted vertically on the left pillar. A black lantern-style light fixture hangs from the light-colored wood ceiling. The entryway includes a large glass door with black framing and sidelights, flanked by tall windows reflecting the sky. Black metal railings line the concrete steps leading up to the white stone landing. Small green shrubs and a weeping tree are planted in the gravel bed along the stone foundation.",
+  "stem": "5a789eaf-c578-511a-8203-576441306187_w000"
+ },
+ {
+  "id": "g14",
+  "label": "Bright living room",
+  "domain": "SpatialVID",
+  "caption": "A spacious, high-end living room features a neutral color palette with white slipcovered sofas and armchairs arranged around a glass coffee table on a patterned rug. A tall floor lamp with a cylindrical shade stands near a wicker basket containing folded towels. To the right, a large flat-screen television is mounted above a dark wood sideboard. Large black-framed windows and glass doors reveal an exterior brick wall and greenery. The flooring consists of light marble tiles with dark geometric inlays, and recessed lighting illuminates the white walls and ceiling.",
+  "stem": "9f22d43c-3af9-5496-be38-2d9134149d4e_w000"
+ },
+ {
+  "id": "g15",
+  "label": "Modern kitchen",
+  "domain": "RealEstate10K",
+  "caption": "A modern kitchen features light wood cabinetry with silver handles and white speckled countertops. Stainless steel appliances, including a refrigerator, microwave, and electric range, are integrated into the layout. A white subway tile backsplash runs behind the counters, illuminated by under-cabinet lighting. Decorative items include a silver pineapple and a white bird figurine. In the foreground, white dining chairs surround a glass table, while a doorway on the left reveals a glimpse of an adjacent room with hardwood floors.",
+  "stem": "3e7cf13b44a04cf3_w000"
+ }
+]
