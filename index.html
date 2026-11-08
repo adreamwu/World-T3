@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>World-T³: Test-Time Training as Persistent Memory for Real-Time Video World Models</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  <script defer src="static/js/data.js"></script>
+  <script defer src="static/js/main.js"></script>
+  <link rel="stylesheet" href="static/css/revisit-cmp.css">
+  <script defer src="static/js/revisit-cmp.js"></script>
+  <link rel="stylesheet" href="static/css/gallery.css">
+  <script defer src="static/js/gallery.js"></script>
+  <script defer src="static/js/long-cmp.js"></script>
+  <link rel="stylesheet" href="static/css/search.css">
+  <script defer src="static/js/search.js"></script>
+</head>
+<body>
+
+<!-- ============================== NAV ============================== -->
+<nav class="topnav" aria-label="Sections">
+  <div class="topnav-inner">
+    <a class="brand" href="#top">World-T<sup>3</sup></a>
+    <div class="topnav-links">
+      <a href="#revisit">Revisit</a>
+      <a href="#long">Longer Generation</a>
+      <a href="#gallery">More Results</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero" id="top">
+  <div class="container">
+    <h1 class="title">
+      <span class="title-name">World-T<sup>3</sup></span>
+      <span class="title-sub">Test-Time Training as Persistent Memory<br class="br-desktop"> for Real-Time Video World Models</span>
+    </h1>
+
+    <div class="case-search" id="case-search" role="search">
+      <div class="cs-box">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input type="text" autocomplete="off" spellcheck="false" placeholder="Search demos — e.g. library, highway, retail…" aria-label="Search cases" role="combobox" aria-expanded="false" aria-controls="cs-list">
+        <kbd>/</kbd>
+      </div>
+      <ul class="cs-list" id="cs-list" role="listbox" hidden></ul>
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+<!-- ============================== REVISIT VIDEOS (10 s, explorable 3 x 3 with camera path) ============================== -->
+<section class="section alt" id="revisit">
+  <div class="container wide">
+    <h2>Out-and-Back Revisits</h2>
+    <div class="tabs" role="tablist" data-tabs="revisit-cmp">
+      <button role="tab" class="tab active" data-index="0">Living Room</button>
+      <button role="tab" class="tab" data-index="1">Dining Room</button>
+      <button role="tab" class="tab" data-index="2">Garden Path</button>
+      <button role="tab" class="tab" data-index="3">Foyer</button>
+    </div>
+
+    <div class="rvc" id="rvc">
+      <div class="rvc-grid"></div>
+    </div>
+
+    <div class="sync-controls" id="rvc-controls">
+      <button class="ctrl-btn" data-action="toggle" aria-label="Play / pause">
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+      </button>
+      <div class="rvc-scrubwrap">
+        <input type="range" class="scrubber" min="0" max="1000" value="0" step="1" aria-label="Seek">
+        <div class="rvc-legs" aria-hidden="true"><span>going out</span><span>coming back</span></div>
+      </div>
+      <span class="time mono">0.0 s</span>
+      <button class="rvc-switch" data-action="compare" aria-pressed="false"
+              title="Show, next to every clip, what that model generated the other time the camera stood at this exact spot">
+        <span class="knob"></span>Compare with the same spot <kbd>C</kbd>
+      </button>
+      <select class="speed" aria-label="Playback speed">
+        <option value="0.25">0.25×</option>
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+      </select>
+    </div>
+    <div class="rvc-below">
+      <div class="rvc-chapters" id="rvc-chapters"><span>Jump to</span></div>
+      <div class="rvc-hint"><kbd>Space</kbd> play / pause &nbsp; <kbd>&larr;</kbd><kbd>&rarr;</kbd> step a frame &nbsp; <kbd>C</kbd> compare</div>
+    </div>
+    <details class="rvc-prompt"><summary>Text prompt for this scene</summary><p id="rvc-prompt"></p></details>
+  </div>
+</section>
+
+<!-- ============================== LONG ROLLOUTS (29 s, 3 x 3 with camera path) ============================== -->
+<section class="section" id="long">
+  <div class="container wide">
+    <h2>Longer Generation with Multiple Revisits</h2>
+
+    <div class="tabs" role="tablist" data-tabs="long-cmp">
+      <button role="tab" class="tab active" data-index="0">Columned Building</button>
+      <button role="tab" class="tab" data-index="1">City Street at Night</button>
+      <button role="tab" class="tab" data-index="2">Retail Store</button>
+      <button role="tab" class="tab" data-index="3">Country Path</button>
+    </div>
+
+    <div class="rvc" id="lc">
+      <div class="rvc-grid"></div>
+    </div>
+
+    <div class="sync-controls" id="lc-controls">
+      <button class="ctrl-btn" data-action="toggle" aria-label="Play / pause">
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+      </button>
+      <input type="range" class="scrubber" min="0" max="1000" value="0" step="1" aria-label="Seek">
+      <span class="time mono">0:00 / 0:29</span>
+      <select class="speed" aria-label="Playback speed">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== MORE RESULTS (10 s, 4 x 3, ours) ============================== -->
+<section class="section" id="gallery">
+  <div class="container wide">
+    <h2>More Results</h2>
+    <div class="gal-grid" id="gal-grid"></div>
+  </div>
+</section>
+
+</main>
+
+
+</body>
+</html>

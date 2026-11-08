@@ -1,0 +1,29 @@
+/* ---------- case search (below the title) ---------- */
+.case-search { position: relative; max-width: 640px; margin: 28px auto 0; text-align: left; }
+.cs-box { position: relative; }
+.cs-box svg { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; pointer-events: none; }
+.cs-box input {
+  width: 100%; box-sizing: border-box; font: 600 1.15rem var(--font); color: var(--text); background: var(--bg);
+  padding: 18px 56px 18px 58px; border: 2.5px solid var(--accent); border-radius: 999px;
+  box-shadow: 0 0 0 5px var(--accent-soft), 0 8px 26px rgba(10, 79, 179, .22); outline: none;
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+.cs-box input::placeholder { color: var(--text-muted); font-weight: 500; }
+.cs-box input:hover { transform: translateY(-1px); }
+.cs-box input:focus { box-shadow: 0 0 0 6px var(--accent-soft), 0 10px 30px rgba(10, 79, 179, .32); }
+.cs-box kbd { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font: 700 .85rem var(--mono); padding: 2px 9px; border-radius: 6px; border: 1px solid var(--border); color: var(--text-muted); background: var(--bg-alt); pointer-events: none; }
+.cs-list {
+  position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 300; margin: 0; padding: 6px; list-style: none;
+  max-height: 340px; overflow-y: auto; background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(20, 24, 30, .22);
+}
+.cs-list[hidden] { display: none; }
+.cs-group { font: 700 .68rem var(--font); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); padding: 8px 10px 4px; }
+.cs-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 10px; border-radius: 8px; cursor: pointer; font-size: .95rem; color: var(--text); }
+.cs-item.on, .cs-item:hover { background: var(--accent-soft); }
+.cs-item mark { background: none; color: var(--accent); font-weight: 700; }
+.cs-sec { font-size: .72rem; color: var(--text-muted); white-space: nowrap; }
+.cs-empty { padding: 12px 10px; color: var(--text-muted); font-size: .9rem; }
+.gal-tile.cs-flash { animation: cs-flash 2.2s ease; }
+@keyframes cs-flash { 0%, 60% { box-shadow: 0 0 0 4px var(--accent), 0 0 28px 6px var(--accent); } 100% { box-shadow: var(--shadow); } }
+@media (max-width: 640px) { .cs-box input { font-size: 1rem; padding: 14px 16px 14px 50px; } .cs-box svg { left: 16px; width: 20px; height: 20px; } .cs-sec { display: none; } .cs-box kbd { display: none; } }
