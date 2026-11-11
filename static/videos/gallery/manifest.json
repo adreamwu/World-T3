@@ -6,6 +6,12 @@
   "caption": "A paved two-lane asphalt road with a solid yellow center line curves gently to the left through a high-altitude landscape. On the left, a steep, reddish-brown rocky cliff face rises sharply, covered in patches of green grass and low vegetation. To the right, a wide, dark river flows parallel to the road, bordered by a metal guardrail and a grassy bank. Rolling green hills with exposed earth patches stretch into the distance under a bright blue sky with scattered white clouds. Utility poles line the roadside, and a yellow triangular warning sign stands near the curve."
  },
  {
+  "id": "g11",
+  "label": "Red-rock canyon path",
+  "domain": "SpatialVID",
+  "caption": "A paved pathway curves gently through a lush, green valley floor, flanked by dense shrubs and trees. Towering red rock cliffs rise steeply on both sides, their rugged surfaces contrasting with the vibrant vegetation below. The sky above is a clear, deep blue, indicating bright daylight conditions. A wooden fence with stone pillars lines the left side of the path near the foreground. The scene is static, with no visible movement in the foliage or water, suggesting a calm, still atmosphere in a natural canyon environment."
+ },
+ {
   "id": "g05",
   "label": "Library reading nook",
   "domain": "DL3DV",
@@ -40,12 +46,6 @@
   "label": "Sunlit dining area",
   "domain": "RealEstate10K",
   "caption": "A bright, open-concept interior features a glass dining table in the foreground, adorned with a white pitcher of purple flowers and a bowl of oranges. Surrounding the table are chairs with deep purple velvet cushions. To the left, a modern kitchen displays white cabinetry, stainless steel appliances, and dark countertops. A half-wall separates the dining area from a living room in the background, which contains a beige sectional sofa with blue and grey pillows. A staircase with wooden railings ascends in the center, while track lighting illuminates the space."
- },
- {
-  "id": "g11",
-  "label": "Red-rock canyon path",
-  "domain": "SpatialVID",
-  "caption": "A paved pathway curves gently through a lush, green valley floor, flanked by dense shrubs and trees. Towering red rock cliffs rise steeply on both sides, their rugged surfaces contrasting with the vibrant vegetation below. The sky above is a clear, deep blue, indicating bright daylight conditions. A wooden fence with stone pillars lines the left side of the path near the foreground. The scene is static, with no visible movement in the foliage or water, suggesting a calm, still atmosphere in a natural canyon environment."
  },
  {
   "id": "g13",
