@@ -7,9 +7,9 @@
   const list = root.querySelector(".cs-list");
   const GAL_MANIFEST = "static/videos/gallery/manifest.json";
   const SECTIONS = [
-    { key: "revisit", name: "Out-and-Back Revisits", tabs: "revisit-cmp", sec: "revisit" },
-    { key: "long", name: "Longer Generation", tabs: "long-cmp", sec: "long" },
     { key: "gallery", name: "More Results", sec: "gallery" },
+    { key: "revisit", name: "Comparison with Baselines and Reference", tabs: "revisit-cmp", sec: "revisit" },
+    { key: "long", name: "Longer Generation", tabs: "long-cmp", sec: "long" },
   ];
 
   // Built at query time: the gallery tiles are created asynchronously.

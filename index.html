@@ -22,9 +22,9 @@
   <div class="topnav-inner">
     <a class="brand" href="#top">World-T<sup>3</sup></a>
     <div class="topnav-links">
-      <a href="#revisit">Revisit</a>
-      <a href="#long">Longer Generation</a>
       <a href="#gallery">More Results</a>
+      <a href="#revisit">Comparison</a>
+      <a href="#long">Longer Generation</a>
     </div>
   </div>
 </nav>
@@ -51,10 +51,18 @@
 
 <main>
 
+<!-- ============================== MORE RESULTS (10 s, 4 x 3, ours) ============================== -->
+<section class="section" id="gallery">
+  <div class="container wide">
+    <h2>More Results</h2>
+    <div class="gal-grid" id="gal-grid"></div>
+  </div>
+</section>
+
 <!-- ============================== REVISIT VIDEOS (10 s, explorable 3 x 3 with camera path) ============================== -->
 <section class="section alt" id="revisit">
   <div class="container wide">
-    <h2>Out-and-Back Revisits</h2>
+    <h2>Comparison with Baselines and Reference</h2>
     <div class="tabs" role="tablist" data-tabs="revisit-cmp">
       <button role="tab" class="tab active" data-index="0">Living Room</button>
       <button role="tab" class="tab" data-index="1">Dining Room</button>
@@ -123,14 +131,6 @@
         <option value="2">2×</option>
       </select>
     </div>
-  </div>
-</section>
-
-<!-- ============================== MORE RESULTS (10 s, 4 x 3, ours) ============================== -->
-<section class="section" id="gallery">
-  <div class="container wide">
-    <h2>More Results</h2>
-    <div class="gal-grid" id="gal-grid"></div>
   </div>
 </section>
 
