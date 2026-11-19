@@ -7,6 +7,7 @@
   const list = root.querySelector(".cs-list");
   const GAL_MANIFEST = "static/videos/gallery/manifest.json";
   const SECTIONS = [
+    { key: "pause", name: "Additional Memory Test", sec: "pause", custom: true },
     { key: "gallery", name: "More Results", sec: "gallery" },
     { key: "revisit", name: "Comparison with Baselines and Reference", tabs: "revisit-cmp", sec: "revisit" },
     { key: "long", name: "Longer Generation", tabs: "long-cmp", sec: "long" },
@@ -16,7 +17,9 @@
   function collect() {
     const items = [];
     SECTIONS.forEach((S) => {
-      if (S.tabs) {
+      if (S.custom) {
+        (window.PAUSE_CASES || []).forEach((c) => items.push({ S, label: c.label, extra: "pause hold still rotate translation", go: c.go }));
+      } else if (S.tabs) {
         document.querySelectorAll(`[data-tabs="${S.tabs}"] .tab`).forEach((t) => {
           items.push({ S, label: t.textContent.trim(), extra: "", go: () => { if (!t.classList.contains("active")) t.click(); scrollToSec(S.sec); } });
         });

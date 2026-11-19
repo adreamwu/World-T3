@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="static/css/gallery.css">
   <script defer src="static/js/gallery.js"></script>
   <script defer src="static/js/long-cmp.js"></script>
+  <script defer src="static/js/pause-cmp.js"></script>
   <link rel="stylesheet" href="static/css/search.css">
   <script defer src="static/js/search.js"></script>
 </head>
@@ -22,6 +23,7 @@
   <div class="topnav-inner">
     <a class="brand" href="#top">World-T<sup>3</sup></a>
     <div class="topnav-links">
+      <a href="#pause">Additional Memory Test</a>
       <a href="#gallery">More Results</a>
       <a href="#revisit">Comparison</a>
       <a href="#long">Longer Generation</a>
@@ -50,6 +52,36 @@
 </header>
 
 <main>
+
+<!-- ============================== MEMORY TEST (pause) ============================== -->
+<section class="section alt" id="pause">
+  <div class="container wide">
+    <h2>Additional Memory Test</h2>
+
+    <div id="pause-cmp">
+      <div class="pz-row"><span class="pz-lab">Camera motion</span><div class="tabs" role="tablist" data-tabs="pause-motion"></div></div>
+      <div class="pz-row"><span class="pz-lab">Hold still for</span><div class="tabs" role="tablist" data-tabs="pause-len"></div></div>
+      <div class="rvc-grid"></div>
+    </div>
+
+    <div class="sync-controls" id="pause-controls">
+      <button class="ctrl-btn" data-action="toggle" aria-label="Play / pause">
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+      </button>
+      <div class="rvc-scrubwrap">
+        <input type="range" class="scrubber" min="0" max="1000" value="0" step="1" aria-label="Seek">
+        <div class="rvc-legs" aria-hidden="true"></div>
+      </div>
+      <span class="time mono">0:00 / 0:15</span>
+      <select class="speed" aria-label="Playback speed">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+      </select>
+    </div>
+  </div>
+</section>
 
 <!-- ============================== MORE RESULTS (10 s, 4 x 3, ours) ============================== -->
 <section class="section" id="gallery">
@@ -133,6 +165,7 @@
     </div>
   </div>
 </section>
+
 
 </main>
 
